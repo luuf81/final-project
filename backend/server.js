@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
+import moment from "moment";
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/happyhabits";
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -14,17 +15,22 @@ mongoose.Promise = Promise;
 const ExerciseSessionSchema = mongoose.Schema(
   {
     name: String,
-    // created: {
-    //   type: Date,
-    //   default: () => new Date(getDate()),
-    // },
+    sessionDate: {
+       type: Date,
+       default: () => new Date(),
+     },
     activities: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Activity",
       },
     ],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
+
   { timestamps: true }
 );
 
@@ -58,6 +64,10 @@ const ActivityType = mongoose.model("ActivityType", {
 
 const ActivitySchema = new mongoose.Schema(
   {
+    activityDate: {
+         type: Date,
+         default: () => new Date(),
+       },
     type: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ActivityType",
@@ -69,7 +79,10 @@ const ActivitySchema = new mongoose.Schema(
     sets: Number,
     reps: Number,
     weight: Number,
-    duration: Number,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
@@ -157,22 +170,25 @@ app.post("/activitytypes", async (req, res) => {
 
 //Post new activities
 
+app.post('/activities', authenticateUser)
 app.post("/activities", async (req, res) => {
   try {
-    const { type, sets, reps, weight } = req.body;
+    const { activityDate, type, sets, reps, weight } = req.body;
+    const user = req.user
     const typeId = await ActivityType.findOne({ name: type });
     const activity = await Activity.create({
+      activityDate,
       type: typeId,
       sets,
       reps,
       weight,
+      user
     });
-    const test = new Date(activity.createdAt.getDate())
-    console.log(test)
-    const session = await ExerciseSession.findOne({ createdAt: {
-      $gte: activity.createdAt, 
-      $lt: activity.createdAt
-  }})
+    //const activityDate = moment(activity.createdAt).startOf("day");
+    console.log(activityDate);
+    const session = await ExerciseSession.findOne({
+      sessionDate: { $eq: activityDate },
+    });
     //{$gte: new Date(activity.createdAt)}
     // const session = await ExerciseSession.findOne({
     //   _id: "600699b577b8415342b75e5b",
@@ -180,9 +196,9 @@ app.post("/activities", async (req, res) => {
     console.log(session);
     if (session) {
       await session.activities.push(activity);
-      console.log(session)
-      session.save()
-    } else await ExerciseSession.create({ activities: activity, created:'2021-01-19' });
+      session.user = user
+      session.save();
+    } else await ExerciseSession.create({ sessionDate: activityDate, activities: activity, user: user });
     res.status(200).json({ type: type });
   } catch (err) {
     res.status(400).json({ message: "Could not create user", errors: err });
