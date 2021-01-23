@@ -3,10 +3,11 @@ import LoginForm from "./components/LoginForm";
 import { Provider } from "react-redux";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { user } from "./reducers/user";
+import { workout } from "reducers/workout";
 
 const URL = "http://localhost:8080/users";
 
-const reducer = combineReducers({ user: user.reducer });
+const reducer = combineReducers({ user: user.reducer, workout: workout.reducer });
 
 const store = configureStore({ reducer });
 

@@ -125,6 +125,7 @@ userSchema.pre("save", async function (next) {
 
 const authenticateUser = async (req, res, next) => {
   try {
+    console.log('test')
     const accessToken = req.header("Authorization");
     const user = await User.findOne({ accessToken });
     if (!user) {
@@ -168,7 +169,25 @@ app.post("/activitytypes", async (req, res) => {
   }
 });
 
+//get workouts
+
+
 //Post new activities
+app.get('/workouts', authenticateUser)
+app.get('/workouts', async (req, res) => {
+  try {
+    const workouts = await ExerciseSession.find({ user: req.user }).populate({ 
+      path: 'activities',
+      populate: {
+        path: 'type',
+        model: 'ActivityType'
+      } 
+   });
+    res.json(workouts);
+  } catch (err) {
+    res.status(400).json({ error: 'could not fetch workouts' });
+  }
+})
 
 app.post('/activities', authenticateUser)
 app.post("/activities", async (req, res) => {
@@ -188,11 +207,8 @@ app.post("/activities", async (req, res) => {
     console.log(activityDate);
     const session = await ExerciseSession.findOne({
       sessionDate: { $eq: activityDate },
+      user
     });
-    //{$gte: new Date(activity.createdAt)}
-    // const session = await ExerciseSession.findOne({
-    //   _id: "600699b577b8415342b75e5b",
-    // });
     console.log(session);
     if (session) {
       await session.activities.push(activity);

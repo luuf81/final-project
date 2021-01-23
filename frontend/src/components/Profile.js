@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { user } from "../reducers/user";
+import { postActivity, workout } from "../reducers/workout"
 import { useDispatch, useSelector } from "react-redux";
+import { fetchWorkouts } from 'reducers/workout'
 
 const URL = "http://localhost:8080/users";
 export const Profile = () => {
   const dispatch = useDispatch();
+
+  //new state
+  const [date, setDate] = useState("")
+  const [exercise, setExercise] = useState("")
+  const [sets, setSets] = useState(0)
+  const [reps, setReps] = useState(0)
+  const [weight, setWeight] = useState(0)
+
+  const workouts = useSelector((store) => store.workout.workouts)
+  
+  //old state
   const accessToken = useSelector((store) => store.user.login.accessToken);
   const userId = useSelector((store) => store.user.login.userId);
   const statusMessage = useSelector((store) => store.user.login.statusMessage);
@@ -15,17 +28,12 @@ export const Profile = () => {
 
   const logout = () => {};
 
-  const login = () => {
-    // Include userId in the path
-    fetch(`${URL}/${userId}`, {
-      method: "GET",
-      // Include the accessToken to get the protected endpoint
-      headers: { Authorization: accessToken },
-    })
-      .then((res) => res.json())
-      // SUCCESS: Do something with the information we got back
-      .then((json) => loginSuccess(json))
-      .catch((err) => loginFailed(err)); //401
+  useEffect(() => {
+    dispatch(fetchWorkouts())
+  }, workouts )
+
+  const handleSubmit = () => {
+    dispatch(postActivity(date, exercise, sets, reps, weight ))
   };
 
   return (
@@ -38,8 +46,52 @@ export const Profile = () => {
       <p> {`${userId}`}</p>
       <h4>accessToken :</h4>
       <p> {`${accessToken}`}</p>
-      <input type="submit" onClick={login} value="Test Login" />
       <input type="submit" onClick={logout} value="Test Logout" />
+      <form>
+          <div><label>
+            Activity Date
+            <input
+              required
+              value={date}
+              onChange={(event) => setDate(event.target.value)}
+            />
+          </label></div>
+          <div><label>
+            Exercise
+            <input
+              required
+              value={exercise}
+              onChange={(event) => setExercise(event.target.value)}
+            />
+          </label></div>
+          <div><label>
+            Sets
+            <input
+              required
+              value={sets}
+              onChange={(event) => setSets(event.target.value)}
+            />
+          </label></div>
+          <div><label>
+            Reps
+            <input
+              required
+              value={reps}
+              onChange={(event) => setReps(event.target.value)}
+            />
+          </label></div>
+          <div><label>
+            weight
+            <input
+              required
+              value={weight}
+              onChange={(event) => setWeight(event.target.value)}
+            />
+          </label></div>
+          <div><button type="submit" onClick={handleSubmit}>
+            Submit
+          </button></div>
+        </form>
     </div>
   );
 };

@@ -11,9 +11,19 @@ export const LoginForm = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLoginSuccess = (loginResponse) => {};
+  const handleLoginSuccess = (loginResponse) => {
+    localStorage.setItem('superToken', loginResponse.accessToken)
+    dispatch(
+      user.actions.setAccessToken({ accessToken: loginResponse.accessToken })
+    );
+    dispatch(user.actions.setUserId({ userId: loginResponse.userId }));
+    dispatch(user.actions.setStatusMessage({ statusMessage: 'Login Success' }));
+  };
 
-  const handleLoginFailed = (loginError) => {};
+  const handleLoginFailed = (loginError) => {
+    dispatch(user.actions.setAccessToken({ accessToken: null }));
+    dispatch(user.actions.setStatusMessage({ statusMessage: loginError }));
+  };
 
   // To sign up a user.
   const handleSignup = (event) => {
@@ -29,10 +39,9 @@ export const LoginForm = () => {
       .catch((err) => handleLoginFailed(err));
   };
 
-  // To sign up a user.
+  // To login a user
   const handleLogin = (event) => {
     event.preventDefault();
-
     fetch(LOGIN_URL, {
       method: "POST",
       body: JSON.stringify({ name, password }),
@@ -47,7 +56,7 @@ export const LoginForm = () => {
     // If user is logged out, show login form
     return (
       <div>
-        <Profile />
+        {/* <Profile /> */}
         <form>
           <h1>sign up</h1>
           <label>
