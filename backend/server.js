@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 import moment from "moment";
+import { type } from "os";
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/happyhabits";
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -170,9 +171,6 @@ app.post("/activitytypes", async (req, res) => {
 });
 
 //get workouts
-
-
-//Post new activities
 app.get('/workouts', authenticateUser)
 app.get('/workouts', async (req, res) => {
   try {
@@ -188,6 +186,22 @@ app.get('/workouts', async (req, res) => {
     res.status(400).json({ error: 'could not fetch workouts' });
   }
 })
+
+//get activities
+
+app.get('/activities', authenticateUser)
+app.get('/activities', async (req, res) => {
+  try {
+    const activities = await Activity.find().populate( 'type' );
+    res.json(activities);
+  } catch (err) {
+    res.status(400).json({ error: 'could not fetch activities' });
+  }
+})
+
+
+
+//post new activities
 
 app.post('/activities', authenticateUser)
 app.post("/activities", async (req, res) => {

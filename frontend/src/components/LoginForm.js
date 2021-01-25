@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Profile from "./Profile";
 import { useDispatch, useSelector } from "react-redux";
 import { user } from "../reducers/user";
+import { Button, Grid, TextField, FormControl } from "@material-ui/core";
 const SIGNUP_URL = "http://localhost:8080/users";
 const LOGIN_URL = "http://localhost:8080/sessions";
 
@@ -55,34 +56,44 @@ export const LoginForm = () => {
   if (!accessToken) {
     // If user is logged out, show login form
     return (
-      <div>
-        {/* <Profile /> */}
-        <form>
-          <h1>sign up</h1>
-          <label>
-            name
-            <input
-              required
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: '100vh' }}
+        >
+            <TextField
+              label="Username"
+              margin="normal"
+              variant="outlined"
               value={name}
               onChange={(event) => setName(event.target.value)}
             />
-          </label>
-          <label>
-            password
-            <input
+          
+            <TextField
+              label="Password"
+              margin="normal"
+              variant="outlined"
               required
               value={password}
               onChange={(event) => setPassword(event.target.value)}
+              color="secondary"
             />
-          </label>
-          <button type="submit" onClick={handleSignup}>
+          <Button 
+            type="submit"
+            variant="contained" 
+            color="primary" 
+            onClick={handleSignup}>
             Sign-Up
-          </button>
-          <button type="submit" onClick={handleLogin}>
+          </Button>
+          <Button type="submit" 
+            variant="contained"
+            color="primary" 
+            onClick={handleLogin}>
             Login
-          </button>
-        </form>
-      </div>
+          </Button>
+        </Grid>
     );
   } else {
     // If user is logged in, show profile

@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    workouts: []
+    workouts: [],
+    activities: []
 }
 
 export const workout = createSlice({
@@ -11,6 +12,10 @@ export const workout = createSlice({
         setWorkouts: (state, action) => {
             console.log('im now in reducer')
             state.workouts = action.payload
+        },
+        setActivities: (state, action) => {
+            console.log('im now in reducer')
+            state.activities = action.payload
         }
     }
 })
@@ -26,6 +31,20 @@ export const fetchWorkouts = () => {
         .then((workouts) => {
             console.log(workouts)
             dispatch(workout.actions.setWorkouts(workouts))
+        })
+}}
+
+export const fetchActivities = () => {
+    return (dispatch) => {
+        console.log(localStorage.getItem('accessToken'))
+        fetch("http://localhost:8080/activities", {
+            method: 'GET',
+            headers: { Authorization: localStorage.getItem('accessToken') },
+          })
+        .then(res => res.json())
+        .then((activities) => {
+            console.log(activities)
+            dispatch(workout.actions.setActivities(activities))
         })
 }}
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { user } from "../reducers/user";
-import { postActivity, workout } from "../reducers/workout"
+import { fetchActivities, postActivity, workout } from "../reducers/workout"
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWorkouts } from 'reducers/workout'
 
@@ -16,6 +16,7 @@ export const Profile = () => {
   const [weight, setWeight] = useState(0)
 
   const workouts = useSelector((store) => store.workout.workouts)
+  const activities = useSelector((store) => store.workout.activities)
   
   //old state
   const accessToken = useSelector((store) => store.user.login.accessToken);
@@ -30,7 +31,8 @@ export const Profile = () => {
 
   useEffect(() => {
     dispatch(fetchWorkouts())
-  }, workouts )
+    dispatch(fetchActivities())
+  }, [workouts.activities] )
 
   const handleSubmit = () => {
     dispatch(postActivity(date, exercise, sets, reps, weight ))
