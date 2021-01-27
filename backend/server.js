@@ -17,9 +17,9 @@ const ExerciseSessionSchema = mongoose.Schema(
   {
     name: String,
     sessionDate: {
-       type: Date,
-       default: () => new Date(),
-     },
+      type: Date,
+      default: () => new Date(),
+    },
     activities: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -66,9 +66,9 @@ const ActivityType = mongoose.model("ActivityType", {
 const ActivitySchema = new mongoose.Schema(
   {
     activityDate: {
-         type: Date,
-         default: () => new Date(),
-       },
+      type: Date,
+      default: () => new Date(),
+    },
     type: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ActivityType",
@@ -126,7 +126,7 @@ userSchema.pre("save", async function (next) {
 
 const authenticateUser = async (req, res, next) => {
   try {
-    console.log('test')
+    console.log("test");
     const accessToken = req.header("Authorization");
     const user = await User.findOne({ accessToken });
     if (!user) {
@@ -171,43 +171,55 @@ app.post("/activitytypes", async (req, res) => {
 });
 
 //get workouts
-app.get('/workouts', authenticateUser)
-app.get('/workouts', async (req, res) => {
+app.get("/workouts", authenticateUser);
+app.get("/workouts", async (req, res) => {
   try {
-    const workouts = await ExerciseSession.find({ user: req.user }).populate({ 
-      path: 'activities',
-      populate: {
-        path: 'type',
-        model: 'ActivityType'
-      } 
-   });
+    const workouts = await ExerciseSession.find()
+      .populate({
+        path: "activities",
+        populate: {
+          path: "type",
+          model: "ActivityType",
+        },
+      })
+      .populate({
+        path: "user",
+        populate: {
+          path: "user",
+          model: "User",
+        },
+      })
+      .sort("-sessionDate");
+    console.log(workouts);
     res.json(workouts);
   } catch (err) {
-    res.status(400).json({ error: 'could not fetch workouts' });
+    res.status(400).json({ error: "could not fetch workouts" });
   }
-})
+});
 
 //get activities
 
-app.get('/activities', authenticateUser)
-app.get('/activities', async (req, res) => {
+app.get("/activities", authenticateUser);
+app.get("/activities", async (req, res) => {
   try {
-    const activities = await Activity.find().populate( 'type' );
+    const activities = await Activity.find()
+      .populate("type")
+      .populate("user")
+      .sort("-activityDate");
+    //activities.map(item => console.log(item.activityDate))
     res.json(activities);
   } catch (err) {
-    res.status(400).json({ error: 'could not fetch activities' });
+    res.status(400).json({ error: "could not fetch activities" });
   }
-})
-
-
+});
 
 //post new activities
 
-app.post('/activities', authenticateUser)
+app.post("/activities", authenticateUser);
 app.post("/activities", async (req, res) => {
   try {
     const { activityDate, type, sets, reps, weight } = req.body;
-    const user = req.user
+    const user = req.user;
     const typeId = await ActivityType.findOne({ name: type });
     const activity = await Activity.create({
       activityDate,
@@ -215,21 +227,44 @@ app.post("/activities", async (req, res) => {
       sets,
       reps,
       weight,
-      user
+      user,
     });
     //const activityDate = moment(activity.createdAt).startOf("day");
     console.log(activityDate);
     const session = await ExerciseSession.findOne({
       sessionDate: { $eq: activityDate },
-      user
+      user,
     });
     console.log(session);
     if (session) {
       await session.activities.push(activity);
-      session.user = user
+      session.user = user;
       session.save();
-    } else await ExerciseSession.create({ sessionDate: activityDate, activities: activity, user: user });
-    res.status(200).json({ type: type });
+    } else
+      await ExerciseSession.create({
+        sessionDate: activityDate,
+        activities: activity,
+        user: user,
+      });
+    const activities = await Activity.find()
+      .populate("type")
+      .populate("user")
+      .sort("-activityDate");
+    const workouts = await ExerciseSession.find()
+      .populate({
+        path: "activities",
+        populate: {
+          path: "type",
+          model: "ActivityType",
+        },
+      })
+      .populate("user")
+      .sort("-sessionDate");
+    console.log(workouts);
+    //res.json(workouts);
+    //res.json(activities);
+    res.status(200).json(workouts);
+    //res.status(200).json(activities);
   } catch (err) {
     res.status(400).json({ message: "Could not create user", errors: err });
   }

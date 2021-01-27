@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Profile from "./Profile";
+import MainApp from "./MainApp";
 import { useDispatch, useSelector } from "react-redux";
 import { user } from "../reducers/user";
 import { Button, Grid, TextField, FormControl } from "@material-ui/core";
@@ -65,6 +65,7 @@ export const LoginForm = () => {
         >
             <TextField
               label="Username"
+              fullWidth
               margin="normal"
               variant="outlined"
               value={name}
@@ -74,6 +75,7 @@ export const LoginForm = () => {
             <TextField
               label="Password"
               margin="normal"
+              fullWidth
               variant="outlined"
               required
               value={password}
@@ -83,13 +85,15 @@ export const LoginForm = () => {
           <Button 
             type="submit"
             variant="contained" 
-            color="primary" 
+            color="primary"
+            fullWidth 
             onClick={handleSignup}>
             Sign-Up
           </Button>
           <Button type="submit" 
             variant="contained"
             color="primary" 
+            fullWidth
             onClick={handleLogin}>
             Login
           </Button>
@@ -97,7 +101,7 @@ export const LoginForm = () => {
     );
   } else {
     // If user is logged in, show profile
-    return <Profile />;
+    return <MainApp />;
   }
 };
 export default LoginForm;

@@ -10,11 +10,9 @@ export const workout = createSlice({
     initialState,
     reducers: {
         setWorkouts: (state, action) => {
-            console.log('im now in reducer')
             state.workouts = action.payload
         },
         setActivities: (state, action) => {
-            console.log('im now in reducer')
             state.activities = action.payload
         }
     }
@@ -43,19 +41,20 @@ export const fetchActivities = () => {
           })
         .then(res => res.json())
         .then((activities) => {
-            console.log(activities)
             dispatch(workout.actions.setActivities(activities))
         })
 }}
 
 export const postActivity = (date, exercise, sets, reps, weight) => {
+    return(dispatch) => {
     fetch("http://localhost:8080/activities", {
     method: "POST",
     headers: {'Content-Type': 'application/json', Authorization: localStorage.getItem('accessToken')},
     body: JSON.stringify({activityDate: date, type: exercise, sets, reps, weight})
     })
     .then(res => res.json())
-    .then((res) => {
-        console.log(res)
+    .then((workouts) => {
+        dispatch(workout.actions.setWorkouts(workouts))
     })
+}
 }

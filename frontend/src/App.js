@@ -24,9 +24,15 @@ const theme = createMuiTheme({
       main: '#a6d4fa',
     },
   },
+  typography: {
+    button: {
+      marginTop: '20px'
+    }
+  }
 });
 
 export const App = () => {
+  
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -46,10 +52,10 @@ export const App = () => {
   return (
     <ThemeProvider theme={theme}>
     <Provider store={store}>
-      <Container>
-      <Paper>
+      <Container maxWidth="xs">
+      {/* <Paper elevation={0}> */}
       <LoginForm />
-      </Paper>
+      {/* </Paper> */}
       </Container>
     </Provider>
     </ThemeProvider>
