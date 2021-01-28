@@ -5,11 +5,12 @@ import {
   ThemeProvider,
 } from "@material-ui/core/styles";
 import LoginForm from "./components/LoginForm";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { user } from "./reducers/user";
 import { workout } from "reducers/workout";
 import { Container, Paper } from "@material-ui/core";
+import MainApp from "components/MainApp";
 
 const URL = "http://localhost:8080/users";
 
@@ -36,6 +37,9 @@ export const App = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
+  //const dispatch = useDispatch();
+  const accessToken = useSelector((store) => store.user.login.accessToken);
+
   // To sign up a user.
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -50,14 +54,13 @@ export const App = () => {
       .catch((err) => console.log("error:", err));
   };
   return (
-    <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <Container maxWidth="xs">
-      {/* <Paper elevation={0}> */}
-      <LoginForm />
-      {/* </Paper> */}
-      </Container>
-    </Provider>
-    </ThemeProvider>
+    
+    <>
+        {!accessToken && <LoginForm/>}
+        {accessToken && <MainApp/>}
+    </>
+    
   );
 };
+
+export default App;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MainApp from "./MainApp";
 import { useDispatch, useSelector } from "react-redux";
 import { user } from "../reducers/user";
-import { Button, Grid, TextField, FormControl } from "@material-ui/core";
+import { Container, Button, Grid, TextField, FormControl } from "@material-ui/core";
 const SIGNUP_URL = "http://localhost:8080/users";
 const LOGIN_URL = "http://localhost:8080/sessions";
 
@@ -53,9 +53,10 @@ export const LoginForm = () => {
       .catch((err) => handleLoginFailed(err));
   };
 
-  if (!accessToken) {
+  // if (!accessToken) {
     // If user is logged out, show login form
     return (
+      <Container maxWidth="xs">
         <Grid
           container
           direction="column"
@@ -97,11 +98,11 @@ export const LoginForm = () => {
             onClick={handleLogin}>
             Login
           </Button>
-        </Grid>
+        </Grid></Container>
     );
-  } else {
-    // If user is logged in, show profile
-    return <MainApp />;
-  }
+  // } else {
+  //   // If user is logged in, show profile
+  //   return <MainApp />;
+  // }
 };
 export default LoginForm;
