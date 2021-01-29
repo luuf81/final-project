@@ -14,7 +14,7 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = Promise;
 
 const app = express()
-const http = require('http').Server(app);
+// const http = require('http').Server(app);
 //const http2 = createServer(app)
 //const socketIo = require('socket.io')(http)
 
