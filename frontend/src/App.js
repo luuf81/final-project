@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  makeStyles,
+  
   createMuiTheme,
   ThemeProvider,
 } from "@material-ui/core/styles";
@@ -28,7 +28,7 @@ const theme = createMuiTheme({
   typography: {
     button: {
       marginTop: '20px'
-    }
+    },
   }
 });
 
@@ -55,11 +55,10 @@ export const App = () => {
   };
   return (
     
-    <>
+    <Container>
         {!accessToken && <LoginForm/>}
         {accessToken && <MainApp/>}
-    </>
-    
+    </Container>
   );
 };
 

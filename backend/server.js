@@ -1,4 +1,4 @@
-import express from "express";
+import express from "express"
 import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -6,10 +6,17 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 import moment from "moment";
 import { type } from "os";
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/happyhabits";
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = Promise;
+
+const app = express()
+const http = require('http').Server(app);
+//const http2 = createServer(app)
+//const socketIo = require('socket.io')(http)
 
 //activity session model
 
@@ -145,7 +152,7 @@ const User = mongoose.model("User", userSchema);
 
 //   PORT=9000 npm start
 const port = process.env.PORT || 8080;
-const app = express();
+// const app = express();
 
 // Add middlewares to enable cors and json body parsing
 app.use(cors());
@@ -267,6 +274,18 @@ app.post("/activities", async (req, res) => {
     //res.status(200).json(activities);
   } catch (err) {
     res.status(400).json({ message: "Could not create user", errors: err });
+  }
+});
+
+//get users
+
+app.get("/users", authenticateUser);
+app.get("/users", async (req, res) => {
+  try {
+    const users = await User.find()
+    res.json(users);
+  } catch (err) {
+    res.status(400).json({ error: "could not fetch users" });
   }
 });
 

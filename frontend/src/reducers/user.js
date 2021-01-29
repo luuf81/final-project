@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  users: [],
   login: {
     accessToken: localStorage.accessToken || null,
     userId: localStorage.userId || 0,
@@ -12,6 +13,9 @@ export const user = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
+    setUsers: (state, action) => {
+      state.users = action.payload
+    },
     setAccessToken: (state, action) => {
       const { accessToken } = action.payload;
       console.log(`Access Token: ${accessToken}`);
@@ -36,3 +40,16 @@ export const user = createSlice({
     },
   },
 });
+
+export const fetchUsers = () => {
+  return (dispatch) => {
+      //console.log(localStorage.getItem('accessToken'))
+      fetch("http://localhost:8080/users", {
+          method: 'GET',
+          headers: { Authorization: localStorage.getItem('accessToken') },
+        })
+      .then(res => res.json())
+      .then((users) => {
+          dispatch(user.actions.setUsers(users))
+      })
+}}

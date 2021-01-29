@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Button, Grid, TextField, FormControl } from "@material-ui/core";
-//import MomentUtils from "@date-io/moment";
+import {
+  Button,
+  Container,
+  Grid,
+  TextField,
+  FormControl,
+  Paper,
+} from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
+import MomentUtils from "@date-io/moment";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -13,10 +21,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchWorkouts } from "reducers/workout";
 import ActivityForm from "./ActivityForm";
 import ActivityList from "./ActivityList";
+import UserList from "./UserList";
+import Stats from "./Stats";
+//import classes from "*.module.css";
 
 const URL = "http://localhost:8080/users";
+
+const useStyles = makeStyles({
+  paper: {
+    minHeight: '800px',
+    width: '600px',
+    //padding: '0 30px',
+    margin: '30px'
+  },
+});
+
 export const MainApp = () => {
   const dispatch = useDispatch();
+
+  const classes = useStyles();  
 
   //new state
   // const [date, setDate] = useState(Date.now());
@@ -25,8 +48,8 @@ export const MainApp = () => {
   // const [reps, setReps] = useState(0);
   // const [weight, setWeight] = useState(0);
 
-   const workouts = useSelector((store) => store.workout.workouts);
-   const activities = useSelector((store) => store.workout.activities);
+  const workouts = useSelector((store) => store.workout.workouts);
+  const activities = useSelector((store) => store.workout.activities);
 
   // //old state
   // const accessToken = useSelector((store) => store.user.login.accessToken);
@@ -40,9 +63,9 @@ export const MainApp = () => {
   // const logout = () => {};
 
   useEffect(() => {
-      dispatch(fetchWorkouts());
-      dispatch(fetchActivities());
-    }, []);
+    dispatch(fetchWorkouts());
+    dispatch(fetchActivities());
+  }, []);
 
   //  console.log(activities)
 
@@ -54,122 +77,22 @@ export const MainApp = () => {
   //   setReps(0)
   //   setSets(0)
   //   setWeight(0)
-    
+
   // };
 
   return (
-    <>
-    <ActivityForm/>
-    <ActivityList/>
-    </>
-    // <Grid
-    //   container
-    //   direction="column"
-    //   alignItems="center"
-    //   justify="center"
-    //   style={{ minHeight: "100vh" }}
-    // >
-    //   <MuiPickersUtilsProvider utils={MomentUtils}>
-    //     <KeyboardDatePicker
-    //       disableToolbar
-    //       variant="inline"
-    //       // format="MM/DD/yyyy"
-    //       format="YYYY-MM-DD"
-    //       margin="normal"
-    //       id="date-picker-inline"
-    //       label="Date picker inline"
-    //       value={date}
-    //       onChange={setDate}
-    //       KeyboardButtonProps={{
-    //         "aria-label": "change date",
-    //       }}
-    //     />
-    //   </MuiPickersUtilsProvider>
-    //   <TextField
-    //     required
-    //     value={date}
-    //     onChange={(event) => setDate(event.target.value)}
-    //   />
-    //   <TextField
-    //     required
-    //     value={exercise}
-    //     onChange={(event) => setExercise(event.target.value)}
-    //   />
-    //   <TextField
-    //     required
-    //     value={sets}
-    //     onChange={(event) => setSets(event.target.value)}
-    //   />
-    //   <TextField
-    //     required
-    //     value={reps}
-    //     onChange={(event) => setReps(event.target.value)}
-    //   />
-    //   <TextField
-    //     required
-    //     value={weight}
-    //     onChange={(event) => setWeight(event.target.value)}
-    //   />
-    //   <Button type="submit" onClick={handleSubmit}>
-    //     Submit
-    //   </Button>
-    // </Grid>
-    // <div>
-    //   <h1>Profile</h1>
-    //   <h2>Status :</h2>
-    //   <h4>Response :</h4>
-    //   <p>{`${statusMessage}`}</p>
-    //   <h4>userId :</h4>
-    //   <p> {`${userId}`}</p>
-    //   <h4>accessToken :</h4>
-    //   <p> {`${accessToken}`}</p>
-    //   <input type="submit" onClick={logout} value="Test Logout" />
-    //   <form>
-    //       <div><label>
-    //         Activity Date
-    //         <input
-    //           required
-    //           value={date}
-    //           onChange={(event) => setDate(event.target.value)}
-    //         />
-    //       </label></div>
-    //       <div><label>
-    //         Exercise
-    //         <input
-    //           required
-    //           value={exercise}
-    //           onChange={(event) => setExercise(event.target.value)}
-    //         />
-    //       </label></div>
-    //       <div><label>
-    //         Sets
-    //         <input
-    //           required
-    //           value={sets}
-    //           onChange={(event) => setSets(event.target.value)}
-    //         />
-    //       </label></div>
-    //       <div><label>
-    //         Reps
-    //         <input
-    //           required
-    //           value={reps}
-    //           onChange={(event) => setReps(event.target.value)}
-    //         />
-    //       </label></div>
-    //       <div><label>
-    //         weight
-    //         <input
-    //           required
-    //           value={weight}
-    //           onChange={(event) => setWeight(event.target.value)}
-    //         />
-    //       </label></div>
-    //       <div><button type="submit" onClick={handleSubmit}>
-    //         Submit
-    //       </button></div>
-    //     </form>
-    // </div>
+    <Grid 
+    container
+    item
+    wrap='nowrap'
+    >
+      <Paper className={classes.paper}><UserList /></Paper>
+      <Paper className={classes.paper}>
+        <ActivityForm />
+        <ActivityList />
+      </Paper >
+      <Paper className={classes.paper}><Stats /></Paper>
+    </Grid>
   );
 };
 export default MainApp;

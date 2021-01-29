@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import moment from "moment";
 import { user } from "../reducers/user";
 import { fetchActivities, postActivity, workout } from "../reducers/workout";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +11,7 @@ export const ActivityList = () => {
   const dispatch = useDispatch();
   const activities = useSelector((store) => store.workout.activities);
   const workouts = useSelector((store) => store.workout.workouts);
-  console.log(activities);
+  
   //workouts.activities.map(item => console.log(item))
   //activities.map(item => console.log(item.user.name))
 
