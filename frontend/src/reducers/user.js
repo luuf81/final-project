@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import io from "socket.io-client"
 
 const initialState = {
   users: [],
@@ -8,6 +9,8 @@ const initialState = {
     statusMessage: "",
   },
 };
+
+let socket
 
 export const user = createSlice({
   name: "user",
@@ -53,3 +56,12 @@ export const fetchUsers = () => {
           dispatch(user.actions.setUsers(users))
       })
 }}
+
+// export const socketEvents = () => {
+//   return(dispatch) => {
+//   if(!socket) {
+//     socket = io('http://localhost:3001')
+//     socket.on()
+//     console.log(socket)
+//   }
+// }}

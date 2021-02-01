@@ -17,6 +17,7 @@ import moment from "moment";
 
 import { user } from "../reducers/user";
 import { fetchActivities, postActivity, workout } from "../reducers/workout";
+//import { socketEvents } from "../reducers/user"
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWorkouts } from "reducers/workout";
 import ActivityForm from "./ActivityForm";
@@ -65,6 +66,7 @@ export const MainApp = () => {
   useEffect(() => {
     dispatch(fetchWorkouts());
     dispatch(fetchActivities());
+    //dispatch(socketEvents())
   }, []);
 
   //  console.log(activities)

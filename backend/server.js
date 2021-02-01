@@ -14,9 +14,16 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = Promise;
 
 const app = express()
-// const http = require('http').Server(app);
-//const http2 = createServer(app)
-//const socketIo = require('socket.io')(http)
+// const http = require('http').createServer(app);
+// const io = require('socket.io')(http);
+// io.on('connection', (socket) => {
+//   console.log('a user connected');
+// });
+// http.listen(3001, () => {
+//   console.log('listening on *:3001');
+// });
+
+
 
 //activity session model
 
@@ -133,7 +140,7 @@ userSchema.pre("save", async function (next) {
 
 const authenticateUser = async (req, res, next) => {
   try {
-    console.log("test");
+    
     const accessToken = req.header("Authorization");
     const user = await User.findOne({ accessToken });
     if (!user) {
@@ -197,7 +204,7 @@ app.get("/workouts", async (req, res) => {
         },
       })
       .sort("-sessionDate");
-    console.log(workouts);
+    //console.log(workouts);
     res.json(workouts);
   } catch (err) {
     res.status(400).json({ error: "could not fetch workouts" });

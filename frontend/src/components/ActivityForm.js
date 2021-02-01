@@ -8,7 +8,7 @@ Button,
   Slider,
   Typography
 } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
+import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import MomentUtils from "@date-io/moment";
 import {
   MuiPickersUtilsProvider,
@@ -113,11 +113,6 @@ export const ActivityForm = () => {
           <TextField {...params} label="Exercise" variant="outlined" />
         )}
       />
-      {/* <TextField
-        required
-        value={exercise}
-        onChange={(event) => setExercise(event.target.value)}
-      /> */}
       <Typography id="continuous-slider" gutterBottom>
         Sets
       </Typography>
