@@ -167,8 +167,20 @@ app.use(bodyParser.json());
 
 //Endpoints
 
-//Post new activity types
+//get new activity types
 
+app.get("/activitytypes", authenticateUser);
+app.get("/activitytypes", async (req, res) => {
+  try {
+    const exercises = await ActivityType.find( {category: 'gym'} )
+    res.json(exercises);
+  } catch (err) {
+    res.status(400).json({ error: "could not fetch exercises" });
+  }
+});
+
+//Post new activity types
+app.post("/activitytypes", authenticateUser);
 app.post("/activitytypes", async (req, res) => {
   try {
     const { name, category, primaryMuscle, secondaryMuscle } = req.body;
@@ -178,7 +190,8 @@ app.post("/activitytypes", async (req, res) => {
       primaryMuscle,
       secondaryMuscle,
     }).save();
-    res.status(200).json({ name: name });
+    const exercises = await ActivityType.find( {category: 'gym'} )
+    res.json({ activityType, exercises});
   } catch (err) {
     res.status(400).json({ message: "Could not create user", errors: err });
   }

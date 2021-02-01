@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     workouts: [],
-    activities: []
+    activities: [],
+    exercises: [],
+    newExercise: {}
 }
 
 export const workout = createSlice({
@@ -14,7 +16,13 @@ export const workout = createSlice({
         },
         setActivities: (state, action) => {
             state.activities = action.payload
-        }
+        },
+        setExercises: (state, action) => {
+            state.exercises = action.payload
+        },
+        setNewExercise: (state, action) => {
+            state.newExercise = action.payload
+        },
     }
 })
 
@@ -55,6 +63,35 @@ export const postActivity = (date, exercise, sets, reps, weight) => {
     .then(res => res.json())
     .then((workouts) => {
         dispatch(workout.actions.setWorkouts(workouts))
+    })
+}
+}
+
+export const fetchExercises = () => {
+    return (dispatch) => {
+        console.log(localStorage.getItem('accessToken'))
+        fetch("http://localhost:8080/activitytypes", {
+            method: 'GET',
+            headers: { Authorization: localStorage.getItem('accessToken') },
+          })
+        .then(res => res.json())
+        .then((exercises) => {
+            console.log(exercises)
+            dispatch(workout.actions.setExercises(exercises))
+        })
+}}
+
+export const postExercise = (name, primary, secondary) => {
+    return(dispatch) => {
+    fetch("http://localhost:8080/activitytypes", {
+    method: "POST",
+    headers: {'Content-Type': 'application/json', Authorization: localStorage.getItem('accessToken')},
+    body: JSON.stringify({name, category: 'gym', primaryMuscle: primary, secondaryMuscle: secondary})
+    })
+    .then(res => res.json())
+    .then((json) => {
+        dispatch(workout.actions.setExercises(json.exercises))
+        dispatch(workout.actions.setNewExercise(json.activityType))
     })
 }
 }
