@@ -34,7 +34,7 @@ import UserList from "./UserList";
 import Stats from "./Stats";
 //import classes from "*.module.css";
 
-const URL = "http://localhost:8080/users";
+const URL = "https://happyhabits.herokuapp.com/users";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

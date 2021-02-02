@@ -29,7 +29,7 @@ import { fetchWorkouts, postExercise } from "reducers/workout";
 
 const filter = createFilterOptions();
 
-const URL = "http://localhost:8080/users";
+const URL = "https://happyhabits.herokuapp.com/users";
 export const ActivityForm = () => {
   const dispatch = useDispatch();
   const exercises = useSelector((store) => store.workout.exercises);

@@ -47,7 +47,7 @@ export const user = createSlice({
 export const fetchUsers = () => {
   return (dispatch) => {
       //console.log(localStorage.getItem('accessToken'))
-      fetch("http://localhost:8080/users", {
+      fetch("https://happyhabits.herokuapp.com/users", {
           method: 'GET',
           headers: { Authorization: localStorage.getItem('accessToken') },
         })

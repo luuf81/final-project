@@ -29,7 +29,7 @@ export const workout = createSlice({
 export const fetchWorkouts = () => {
     return (dispatch) => {
         console.log(localStorage.getItem('accessToken'))
-        fetch("http://localhost:8080/workouts", {
+        fetch("https://happyhabits.herokuapp.com/workouts", {
             method: 'GET',
             headers: { Authorization: localStorage.getItem('accessToken') },
           })
@@ -43,7 +43,7 @@ export const fetchWorkouts = () => {
 export const fetchActivities = () => {
     return (dispatch) => {
         console.log(localStorage.getItem('accessToken'))
-        fetch("http://localhost:8080/activities", {
+        fetch("https://happyhabits.herokuapp.com/activities", {
             method: 'GET',
             headers: { Authorization: localStorage.getItem('accessToken') },
           })
@@ -55,7 +55,7 @@ export const fetchActivities = () => {
 
 export const postActivity = (date, exercise, sets, reps, weight) => {
     return(dispatch) => {
-    fetch("http://localhost:8080/activities", {
+    fetch("https://happyhabits.herokuapp.com/activities", {
     method: "POST",
     headers: {'Content-Type': 'application/json', Authorization: localStorage.getItem('accessToken')},
     body: JSON.stringify({activityDate: date, type: exercise, sets, reps, weight})
@@ -70,7 +70,7 @@ export const postActivity = (date, exercise, sets, reps, weight) => {
 export const fetchExercises = () => {
     return (dispatch) => {
         console.log(localStorage.getItem('accessToken'))
-        fetch("http://localhost:8080/activitytypes", {
+        fetch("https://happyhabits.herokuapp.com/activitytypes", {
             method: 'GET',
             headers: { Authorization: localStorage.getItem('accessToken') },
           })
@@ -83,7 +83,7 @@ export const fetchExercises = () => {
 
 export const postExercise = (name, primary, secondary) => {
     return(dispatch) => {
-    fetch("http://localhost:8080/activitytypes", {
+    fetch("https://happyhabits.herokuapp.com/activitytypes", {
     method: "POST",
     headers: {'Content-Type': 'application/json', Authorization: localStorage.getItem('accessToken')},
     body: JSON.stringify({name, category: 'gym', primaryMuscle: primary, secondaryMuscle: secondary})

@@ -11,7 +11,7 @@ import { workout } from "reducers/workout";
 import { Container, Paper } from "@material-ui/core";
 import App from "./App";
 
-const URL = "http://localhost:8080/users";
+const URL = "https://happyhabits.herokuapp.com/users";
 
 const reducer = combineReducers({ user: user.reducer, workout: workout.reducer });
 

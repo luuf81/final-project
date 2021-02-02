@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchWorkouts } from "reducers/workout";
 import { Box, Card, CardContent, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
 
-const URL = "http://localhost:8080/users";
+const URL = "https://happyhabits.herokuapp.com/users";
 export const ActivityList = () => {
   const dispatch = useDispatch();
   const activities = useSelector((store) => store.workout.activities);
