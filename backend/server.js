@@ -10,6 +10,7 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/happyhabits";
+console.log(mongoUrl)
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = Promise;
 
