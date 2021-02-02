@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { user } from "../reducers/user";
 import { Container, Button, Grid, TextField, FormControl } from "@material-ui/core";
 const SIGNUP_URL = "https://happyhabits.herokuapp.com/users";
-const LOGIN_URL = "https://happyhabits.herokuapp.com//sessions";
+const LOGIN_URL = "https://happyhabits.herokuapp.com/sessions";
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
