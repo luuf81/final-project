@@ -282,7 +282,7 @@ app.post("/activities", async (req, res) => {
       .populate("type")
       .populate("user")
       .sort("-activityDate");
-    const workouts = await ExerciseSession.find()
+    const workouts = await ExerciseSession.find( {user: req.user})
       .populate({
         path: "activities",
         populate: {
