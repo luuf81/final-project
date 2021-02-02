@@ -168,6 +168,11 @@ app.use(bodyParser.json());
 
 //Endpoints
 
+app.get('/', (req, res) => {
+
+  res.send('Hello world')
+})
+
 //get new activity types
 
 app.get("/activitytypes", authenticateUser);
