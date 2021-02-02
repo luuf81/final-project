@@ -194,13 +194,13 @@ export const ActivityForm = () => {
             clearOnBlur
             handleHomeEndKeys
             renderOption={(option) => option.name}
-            style={{ width: 300 }}
+            fullWidth
             freeSolo
             renderInput={(params) => (
               <TextField    
               {...params}
                 label="Free solo dialog"
-                variant="outlined"
+                variant="standard"
               />
             )}
           />
