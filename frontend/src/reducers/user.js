@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import io from "socket.io-client"
+//import io from "socket.io-client"
 
 const initialState = {
   users: [],
@@ -10,7 +10,7 @@ const initialState = {
   },
 };
 
-let socket
+//let socket
 
 export const user = createSlice({
   name: "user",
