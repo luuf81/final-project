@@ -14,7 +14,6 @@ console.log(mongoUrl)
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = Promise;
 
-const app = express()
 // const http = require('http').createServer(app);
 // const io = require('socket.io')(http);
 // io.on('connection', (socket) => {
@@ -160,7 +159,7 @@ const User = mongoose.model("User", userSchema);
 
 //   PORT=9000 npm start
 const port = process.env.PORT || 8080;
-// const app = express();
+const app = express();
 
 // Add middlewares to enable cors and json body parsing
 app.use(cors());
