@@ -16,6 +16,7 @@ export const ActivityList = () => {
   //activities.map(item => console.log(item.user.name))
 
   return (
+    (workouts &&
     <Box mt={10}>
       <Paper>
         {workouts.map((item) => (
@@ -52,7 +53,7 @@ export const ActivityList = () => {
           </Box>
         ))}
       </Paper>
-    </Box>
+    </Box>)
   );
 };
 
