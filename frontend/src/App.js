@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  
+  makeStyles,
   createMuiTheme,
   ThemeProvider,
 } from "@material-ui/core/styles";
@@ -32,7 +32,17 @@ const theme = createMuiTheme({
   }
 });
 
+const useStyles = makeStyles(theme => ({
+  mainContainer: {
+    [theme.breakpoints.down('sm')]: {
+      padding: 0
+    },
+  }
+}));
+
 export const App = () => {
+
+  const classes = useStyles()
   
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -55,7 +65,7 @@ export const App = () => {
   };
   return (
     
-    <Container>
+    <Container className={classes.mainContainer}>
         {!accessToken && <LoginForm/>}
         {accessToken && <MainApp/>}
     </Container>

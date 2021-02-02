@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import {
   Button,
+  BottomNavigation,
+  BottomNavigationAction,
   Container,
   Grid,
   TextField,
   FormControl,
   Paper,
 } from "@material-ui/core";
+import { Folder, Restore, Favorite, LocationOn } from "@material-ui/icons"
 import { makeStyles } from '@material-ui/core/styles';
 import MomentUtils from "@date-io/moment";
 import {
@@ -28,40 +31,43 @@ import Stats from "./Stats";
 
 const URL = "http://localhost:8080/users";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   paper: {
     minHeight: '800px',
     width: '600px',
     //padding: '0 30px',
-    margin: '30px'
+    margin: '30px',
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: '100%',
+      margin: 0,
+    },
   },
-});
+  sidePaper: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    },
+  },
+  stickyNav: {
+    position: 'fixed',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: "black"
+  },
+}));
 
 export const MainApp = () => {
   const dispatch = useDispatch();
 
   const classes = useStyles();  
 
-  //new state
-  // const [date, setDate] = useState(Date.now());
-  // const [exercise, setExercise] = useState("");
-  // const [sets, setSets] = useState(0);
-  // const [reps, setReps] = useState(0);
-  // const [weight, setWeight] = useState(0);
-
   const workouts = useSelector((store) => store.workout.workouts);
   const activities = useSelector((store) => store.workout.activities);
 
-  // //old state
-  // const accessToken = useSelector((store) => store.user.login.accessToken);
-  // const userId = useSelector((store) => store.user.login.userId);
-  // const statusMessage = useSelector((store) => store.user.login.statusMessage);
+  const [value, setValue] = React.useState('recents');
 
-  // const loginSuccess = (loginResponse) => {};
-
-  // const loginFailed = (loginError) => {};
-
-  // const logout = () => {};
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     dispatch(fetchExercises())
@@ -70,32 +76,28 @@ export const MainApp = () => {
     //dispatch(socketEvents())
   }, []);
 
-  //  console.log(activities)
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault()
-  //   console.log( {date, exercise, sets, reps, weight})
-  //   dispatch(postActivity(date, exercise, sets, reps, weight));
-  //   setExercise("")
-  //   setReps(0)
-  //   setSets(0)
-  //   setWeight(0)
-
-  // };
 
   return (
+    <>
     <Grid 
     container
     item
     wrap='nowrap'
     >
-      <Paper className={classes.paper}><UserList /></Paper>
+      <Paper className={classes.paper, classes.sidePaper}><UserList /></Paper>
       <Paper className={classes.paper}>
         <ActivityForm />
         <ActivityList />
       </Paper >
-      <Paper className={classes.paper}><Stats /></Paper>
+      <Paper className={classes.paper, classes.sidePaper}><Stats /></Paper>
     </Grid>
+     <BottomNavigation value={value} onChange={handleChange} className={classes.stickyNav}>
+     <BottomNavigationAction label="Recents" value="recents" icon={<Restore />} />
+     <BottomNavigationAction label="Favorites" value="favorites" icon={<Favorite />} />
+     <BottomNavigationAction label="Nearby" value="nearby" icon={<LocationOn />} />
+     <BottomNavigationAction label="Folder" value="folder" icon={<Folder />} />
+   </BottomNavigation>
+   </>
   );
 };
 export default MainApp;
