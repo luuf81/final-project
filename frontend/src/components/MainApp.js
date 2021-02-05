@@ -47,8 +47,27 @@ const useStyles = makeStyles((theme) => ({
       margin: 0,
     },
   },
-  sidePaper: {
+  userPaper: {
     [theme.breakpoints.down("sm")]: {
+      // display: props => props.value === "users" ? "block" : "none",
+      display: "block",
+    },
+  },
+  activitiesPaper: {
+    [theme.breakpoints.down("sm")]: {
+      // display: props => props.value === "activities" ? "block" : "none",
+      display: "block",
+    },
+  },
+  statsPaper: {
+    [theme.breakpoints.down("sm")]: {
+      // display: props => props.value === "stats" ? "block" : "none",
+      display: "block",
+    },
+  },
+  hiddenPaper: {
+    [theme.breakpoints.down("sm")]: {
+      // display: props => props.value === "stats" ? "block" : "none",
       display: "none",
     },
   },
@@ -57,18 +76,25 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     width: "100%",
     backgroundColor: "black",
+    [theme.breakpoints.up("sm")]: {
+      // display: props => props.value === "stats" ? "block" : "none",
+      display: "none",
+    },
   },
 }));
 
-export const MainApp = () => {
+export const MainApp = (props) => {
   const dispatch = useDispatch();
 
-  const classes = useStyles();
+  const classes = useStyles(props);
 
   const workouts = useSelector((store) => store.workout.workouts);
   const activities = useSelector((store) => store.workout.activities);
 
-  const [value, setValue] = React.useState("recents");
+  const [value, setValue] = React.useState("activities");
+  console.log(value);
+
+  console.log(props);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -84,14 +110,18 @@ export const MainApp = () => {
   return (
     <>
       <Grid container item wrap="nowrap">
-        <Paper className={(classes.paper, classes.sidePaper)}>
+        <Paper
+          className={
+            (classes.paper, value === "users" ? classes.userPaper : classes.hiddenPaper)
+          }
+        >
           <UserList />
         </Paper>
-        <Paper className={classes.paper}>
+        <Paper className={(classes.paper, value === "activities" ? classes.activitiesPaper : classes.hiddenPaper)}>
           <ActivityForm />
           <ActivityList />
         </Paper>
-        <Paper className={(classes.paper, classes.sidePaper)}>
+        <Paper className={(classes.paper, value === "stats" ? classes.statsPaper : classes.hiddenPaper)}>
           <Stats />
         </Paper>
       </Grid>
@@ -101,24 +131,19 @@ export const MainApp = () => {
         className={classes.stickyNav}
       >
         <BottomNavigationAction
-          label="Recents"
-          value="recents"
+          label="Users"
+          value="users"
           icon={<Restore />}
         />
         <BottomNavigationAction
-          label="Favorites"
-          value="favorites"
+          label="Activities"
+          value="activities"
           icon={<Favorite />}
         />
         <BottomNavigationAction
-          label="Nearby"
-          value="nearby"
+          label="Stats"
+          value="stats"
           icon={<LocationOn />}
-        />
-        <BottomNavigationAction
-          label="Folder"
-          value="folder"
-          icon={<Folder />}
         />
       </BottomNavigation>
     </>

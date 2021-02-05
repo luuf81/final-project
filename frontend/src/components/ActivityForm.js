@@ -9,6 +9,9 @@ import {
   DialogActions,
   Button,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   FormControl,
   Slider,
@@ -36,15 +39,15 @@ export const ActivityForm = () => {
 
   //free solo state test
   //const [value, setValue] = useState(useSelector((store) => store.workout.newExercise.name))
-  const [value, setValue] = useState()
-  
+  const [value, setValue] = useState();
+
   const [open, toggleOpen] = useState(false);
 
   const handleClose = () => {
     setDialogValue({
       name: "",
       primary: "",
-      secondary: ""
+      secondary: "",
     });
 
     toggleOpen(false);
@@ -53,18 +56,20 @@ export const ActivityForm = () => {
   const [dialogValue, setDialogValue] = useState({
     name: "",
     primary: "",
-    secondary: ""
+    secondary: "",
   });
 
   const handleInputSubmit = (event) => {
     event.preventDefault();
-    dispatch(postExercise(dialogValue.name, dialogValue.primary, dialogValue.secondary));
-     setValue({
-       name: dialogValue.name,
-       primary: dialogValue.primary,
-       secondary: dialogValue.secondary
-     });
-    console.log(value)
+    dispatch(
+      postExercise(dialogValue.name, dialogValue.primary, dialogValue.secondary)
+    );
+    setValue({
+      name: dialogValue.name,
+      primary: dialogValue.primary,
+      secondary: dialogValue.secondary,
+    });
+    console.log(value);
 
     handleClose();
   };
@@ -85,7 +90,7 @@ export const ActivityForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     //setValue(this.inputRef.value)
-    console.log(value)
+    console.log(value);
     dispatch(postActivity(date, value.name, sets, reps, weight));
     setExercise("benchpress");
     setReps(8);
@@ -151,7 +156,7 @@ export const ActivityForm = () => {
                   setDialogValue({
                     name: newValue,
                     primary: "",
-                    secondary: ""
+                    secondary: "",
                   });
                 });
               } else if (newValue && newValue.inputValue) {
@@ -159,10 +164,10 @@ export const ActivityForm = () => {
                 setDialogValue({
                   name: newValue.inputValue,
                   primary: "",
-                    secondary: ""
+                  secondary: "",
                 });
               } else {
-                console.log(newValue)
+                console.log(newValue);
                 setValue(newValue);
               }
             }}
@@ -197,9 +202,9 @@ export const ActivityForm = () => {
             fullWidth
             freeSolo
             renderInput={(params) => (
-              <TextField    
-              {...params}
-                label="Free solo dialog"
+              <TextField
+                {...params}
+                label="Choose activity..."
                 variant="standard"
               />
             )}
@@ -210,13 +215,16 @@ export const ActivityForm = () => {
             aria-labelledby="form-dialog-title"
           >
             <form onSubmit={handleInputSubmit}>
-              <DialogTitle id="form-dialog-title">Add a new Exercise</DialogTitle>
+              <DialogTitle id="form-dialog-title">
+                Add a new Exercise
+              </DialogTitle>
               <DialogContent>
                 <DialogContentText>
                   Did you miss any exercise? Add it here...
                 </DialogContentText>
                 <TextField
                   autoFocus
+                  fullWidth
                   margin="dense"
                   id="name"
                   value={dialogValue.name}
@@ -226,10 +234,36 @@ export const ActivityForm = () => {
                       name: event.target.value,
                     })
                   }
-                  label="title"
+                  label="Exercise Name"
                   type="text"
                 />
-                <TextField
+                <InputLabel id="demo-simple-select-label">Primary Muscle</InputLabel>
+                <Select
+                  fullWidth
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={dialogValue.primary}
+                  onChange={(event) =>
+                    setDialogValue({ ...dialogValue, primary: event.target.value })}
+                >
+                  <MenuItem value={'Chest'}>Chest</MenuItem>
+                  <MenuItem value={'Triceps'}>Triceps</MenuItem>
+                  <MenuItem value={'Back'}>Back</MenuItem>
+                </Select>
+                <InputLabel id="demo-simple-select-label">Secondary Muscle</InputLabel>
+                <Select
+                fullWidth
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={dialogValue.secondary}
+                  onChange={(event) =>
+                    setDialogValue({ ...dialogValue, secondary: event.target.value })}
+                >
+                  <MenuItem value={'Chest'}>Chest</MenuItem>
+                  <MenuItem value={'Triceps'}>Triceps</MenuItem>
+                  <MenuItem value={'Back'}>Back</MenuItem>
+                </Select>
+                {/* <TextField
                   margin="dense"
                   id="name"
                   value={dialogValue.primary}
@@ -248,7 +282,7 @@ export const ActivityForm = () => {
                   }
                   label="secondary"
                   type="text"
-                />
+                /> */}
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose} color="primary">
@@ -310,22 +344,22 @@ export const ActivityForm = () => {
           </Button>
         </Grid>
       </CardContent>
-    </Card>    
+    </Card>
   );
 };
 export default ActivityForm;
 
 const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
+  { title: "The Shawshank Redemption", year: 1994 },
+  { title: "The Godfather", year: 1972 },
+  { title: "The Godfather: Part II", year: 1974 },
+  { title: "The Dark Knight", year: 2008 },
+  { title: "12 Angry Men", year: 1957 },
   { title: "Schindler's List", year: 1993 },
-  { title: 'Pulp Fiction', year: 1994 },
-  { title: 'The Lord of the Rings: The Return of the King', year: 2003 },
-  { title: 'The Good, the Bad and the Ugly', year: 1966 },
-  { title: 'Fight Club', year: 1999 },
-  { title: 'The Lord of the Rings: The Fellowship of the Ring', year: 2001 },
-  { title: 'Star Wars: Episode V - The Empire Strikes Back', year: 1980 },
-]
+  { title: "Pulp Fiction", year: 1994 },
+  { title: "The Lord of the Rings: The Return of the King", year: 2003 },
+  { title: "The Good, the Bad and the Ugly", year: 1966 },
+  { title: "Fight Club", year: 1999 },
+  { title: "The Lord of the Rings: The Fellowship of the Ring", year: 2001 },
+  { title: "Star Wars: Episode V - The Empire Strikes Back", year: 1980 },
+];

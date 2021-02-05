@@ -14,11 +14,21 @@ console.log(mongoUrl)
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = Promise;
 
-// const http = require('http').createServer(app);
+const port = process.env.PORT || 8080;
+const app = express();
+const http = require('http').createServer(app);
 // const io = require('socket.io')(http);
-// io.on('connection', (socket) => {
-//   console.log('a user connected');
-// });
+const io = require("socket.io")(http, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
+});
+io.on('connection', (socket) => {
+   console.log('a user connected');
+ });
+//io.set('origins', '*:*');
+
 // http.listen(3001, () => {
 //   console.log('listening on *:3001');
 // });
@@ -158,8 +168,7 @@ const authenticateUser = async (req, res, next) => {
 const User = mongoose.model("User", userSchema);
 
 //   PORT=9000 npm start
-const port = process.env.PORT || 8080;
-const app = express();
+
 
 // Add middlewares to enable cors and json body parsing
 app.use(cors());
@@ -372,6 +381,6 @@ app.get("/users/:id/profile", async (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
+http.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });

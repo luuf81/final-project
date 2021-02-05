@@ -4,7 +4,7 @@ import { fetchActivities, postActivity, workout } from "../reducers/workout";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWorkouts } from "reducers/workout";
 import { Box, Card, CardContent, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
-//import io from "socket.io-client"
+import io from "socket.io-client"
 
 export const UserList = () => {
     
@@ -17,8 +17,8 @@ export const UserList = () => {
         dispatch(fetchUsers());
       }, []);
 
-      //var socket = io('http://localhost:3001');
-      //console.log(socket)
+      var socket = io('http://localhost:8080');
+      console.log(socket)
 
 
 return (
