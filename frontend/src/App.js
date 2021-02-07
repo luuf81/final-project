@@ -79,6 +79,7 @@ export const App = () => {
   // };
 
   var socket;
+  console.log(accessToken)
 
   if (accessToken) {
     //socket = io("http://localhost:8080");
