@@ -81,7 +81,8 @@ export const App = () => {
   var socket;
 
   if (accessToken) {
-    socket = io("http://localhost:8080");
+    //socket = io("http://localhost:8080");
+    socket = io(":32740");
     console.log(socket);
     socket.emit('user', accessToken)
   }
