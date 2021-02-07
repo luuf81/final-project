@@ -85,7 +85,7 @@ export const App = () => {
     //socket = io("http://localhost:8080");
     //socket = io();
     
-    socket = io("https://happyhabits.herokuapp.com/:32740");
+    //socket = io("https://happyhabits.herokuapp.com/:32740");
     socket = io("https://happyhabits.netlify.app");
     console.log(socket);
     socket.emit('user', accessToken)
