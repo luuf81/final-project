@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   users: [],
+  onlineUsers: null,
   login: {
     accessToken: localStorage.accessToken || null,
     userId: localStorage.userId || 0,
@@ -18,6 +19,10 @@ export const user = createSlice({
   reducers: {
     setUsers: (state, action) => {
       state.users = action.payload
+    },
+    setOnlineusers: (state, action) => {
+      console.log(action.payload)
+      state.onlineUsers = action.payload
     },
     setAccessToken: (state, action) => {
       const { accessToken } = action.payload;

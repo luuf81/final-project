@@ -247,8 +247,15 @@ export const ActivityForm = () => {
                     setDialogValue({ ...dialogValue, primary: event.target.value })}
                 >
                   <MenuItem value={'Chest'}>Chest</MenuItem>
+                  <MenuItem value={'Shoulders'}>Shoulders</MenuItem>
                   <MenuItem value={'Triceps'}>Triceps</MenuItem>
+                  <MenuItem value={'Biceps'}>Biceps</MenuItem>
                   <MenuItem value={'Back'}>Back</MenuItem>
+                  <MenuItem value={'Abs'}>Abs</MenuItem>
+                  <MenuItem value={'Front legs'}>Front legs</MenuItem>
+                  <MenuItem value={'Back Legs'}>Back legs</MenuItem>
+                  <MenuItem value={'Glutes'}>Glutes</MenuItem>
+                  <MenuItem value={'Calves'}>Calves</MenuItem>
                 </Select>
                 <InputLabel id="demo-simple-select-label">Secondary Muscle</InputLabel>
                 <Select
@@ -260,8 +267,15 @@ export const ActivityForm = () => {
                     setDialogValue({ ...dialogValue, secondary: event.target.value })}
                 >
                   <MenuItem value={'Chest'}>Chest</MenuItem>
+                  <MenuItem value={'Shoulders'}>Shoulders</MenuItem>
                   <MenuItem value={'Triceps'}>Triceps</MenuItem>
+                  <MenuItem value={'Biceps'}>Biceps</MenuItem>
                   <MenuItem value={'Back'}>Back</MenuItem>
+                  <MenuItem value={'Abs'}>Abs</MenuItem>
+                  <MenuItem value={'Front legs'}>Front legs</MenuItem>
+                  <MenuItem value={'Back Legs'}>Back legs</MenuItem>
+                  <MenuItem value={'Glutes'}>Glutes</MenuItem>
+                  <MenuItem value={'Calves'}>Calves</MenuItem>
                 </Select>
                 {/* <TextField
                   margin="dense"

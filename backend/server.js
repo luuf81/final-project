@@ -26,6 +26,11 @@ const io = require("socket.io")(http, {
 });
 io.on('connection', (socket) => {
    console.log('a user connected');
+   socket.on('user', async (accessToken) => {
+    const user = await User.findOne({ accessToken });
+    console.log('user: ' + user.name)
+    io.emit('user', user);
+   })
  });
 //io.set('origins', '*:*');
 

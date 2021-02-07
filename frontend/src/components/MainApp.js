@@ -17,6 +17,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import moment from "moment";
+import io from "socket.io-client"
 
 import { user } from "../reducers/user";
 import {
@@ -106,6 +107,9 @@ export const MainApp = (props) => {
     dispatch(fetchActivities());
     //dispatch(socketEvents())
   }, []);
+
+  // var socket = io('http://localhost:8080');
+  //     console.log(socket)
 
   return (
     <>
