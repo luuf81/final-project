@@ -34,44 +34,6 @@ import {
 } from "recharts";
 
 export const Stats = () => {
-  const data = [
-    {
-      subject: "Math",
-      A: 120,
-      B: 110,
-      fullMark: 150,
-    },
-    {
-      subject: "Chinese",
-      A: 98,
-      B: 130,
-      fullMark: 150,
-    },
-    {
-      subject: "English",
-      A: 86,
-      B: 130,
-      fullMark: 150,
-    },
-    {
-      subject: "Geography",
-      A: 99,
-      B: 100,
-      fullMark: 150,
-    },
-    {
-      subject: "Physics",
-      A: 85,
-      B: 90,
-      fullMark: 150,
-    },
-    {
-      subject: "History",
-      A: 65,
-      B: 85,
-      fullMark: 150,
-    },
-  ];
 
   let setsData = [
     {
@@ -119,8 +81,9 @@ export const Stats = () => {
   const dispatch = useDispatch();
   const activities = useSelector((store) => store.workout.activities);
   const currentExercise = useSelector((store) => store.workout.currentExercise.name);
+  console.log(currentExercise)
   const workouts = useSelector((store) => store.workout.workouts);
-  console.log(workouts)
+  
 
   activities.forEach(item => {
     const found = setsData.find(exercise => exercise.muscle == item.type.primaryMuscle)
@@ -200,13 +163,14 @@ export const Stats = () => {
         />
         <Legend />
       </RadarChart> */}
+      {currentExercise &&
       <LineChart width={300} height={200} data={exerciseWeight}>
         <Line type="monotone" dataKey="weight" stroke="#8884d8" />
         <CartesianGrid stroke="#ccc" />
         <XAxis dataKey="activityDate" tickFormatter={formatXAxis} />
         <YAxis />
         <Tooltip label="activityDate" />
-      </LineChart>
+      </LineChart>}
       </Container>
     </>
   );

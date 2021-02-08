@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   users: [],
-  onlineUsers: null,
+  onlineUsers: [],
   login: {
     accessToken: localStorage.accessToken || null,
     userId: localStorage.userId || 0,
@@ -22,7 +22,7 @@ export const user = createSlice({
     },
     setOnlineusers: (state, action) => {
       console.log(action.payload)
-      state.onlineUsers = action.payload
+      state.onlineUsers.push = action.payload
     },
     setAccessToken: (state, action) => {
       const { accessToken } = action.payload;

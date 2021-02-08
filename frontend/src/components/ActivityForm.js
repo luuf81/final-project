@@ -169,7 +169,8 @@ export const ActivityForm = () => {
                 });
               } else {
                 console.log(newValue);
-                dispatch(workout.actions.setCurrentExercise(newValue));
+                console.log("breaking here");
+                if(newValue)dispatch(workout.actions.setCurrentExercise(newValue));
                 setValue(newValue);
               }
             }}
