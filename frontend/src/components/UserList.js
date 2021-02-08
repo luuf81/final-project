@@ -12,6 +12,7 @@ export const UserList = () => {
     const activities = useSelector((store) => store.workout.activities);
     const workouts = useSelector((store) => store.workout.workouts);
     const users = useSelector((store) => store.user.users);
+    const onlineUsers = useSelector((store) => store.user.onlineUsers);
 
     useEffect(() => {
         dispatch(fetchUsers());
@@ -22,6 +23,8 @@ export const UserList = () => {
 
 return (
         <>
+        <Typography align="center" variant="h4">Users online right now</Typography>
+        {onlineUsers.map(user => (<Typography>{user.name}</Typography>))}
         <Typography align="center" variant="h4">Your gym buddies</Typography>
         {users.map(user => (<Typography>{user.name}</Typography>))}
         </>

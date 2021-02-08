@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
    socket.on('user', async (accessToken) => {
     const user = await User.findOne({ accessToken });
     console.log('user: ' + user.name)
-    io.broadcast.emit('user', user);
+    io.emit('user', user);
    })
  });
 //io.set('origins', '*:*');
