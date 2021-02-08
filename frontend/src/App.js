@@ -57,7 +57,7 @@ export const App = () => {
 
   const dispatch = useDispatch();
   const accessToken = useSelector((store) => store.user.login.accessToken);
-  const loggedinUser = useSelector((store) => store.user.login.userId);
+  //const loggedinUser = useSelector((store) => store.user.login.userId);
   //const [userOnline, setUseronline] = useState(false)
 
   // To sign up a user.
@@ -93,7 +93,7 @@ export const App = () => {
 
   //useEffect(() => {
   if(socket)socket.on('user', userSocket => {
-    if(userSocket._id !== loggedinUser) {
+    //if(userSocket._id !== loggedinUser) {
     console.log(userSocket.name + ': connected')
     dispatch(user.actions.setOnlineusers( userSocket.name ))
     //setUseronline(true)
@@ -101,7 +101,7 @@ export const App = () => {
     //setUsername(user.name)
     //username = user.name
     //setOpen(true)
-    }
+    //}
   })
 //}, [userOnline])
 
