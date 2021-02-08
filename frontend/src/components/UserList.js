@@ -24,7 +24,7 @@ export const UserList = () => {
 return (
         <>
         <Typography align="center" variant="h4">Users online right now</Typography>
-        {onlineUsers.map(user => (<Typography>{user.name}</Typography>))}
+        {onlineUsers.map(user => (<Typography>{user}</Typography>))}
         <Typography align="center" variant="h4">Your gym buddies</Typography>
         {users.map(user => (<Typography>{user.name}</Typography>))}
         </>
