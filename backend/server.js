@@ -311,7 +311,7 @@ app.post("/activities", async (req, res) => {
     console.log(workouts);
     //res.json(workouts);
     //res.json(activities);
-    res.status(200).json(workouts, activities);
+    res.status(200).json(workouts);
     //res.status(200).json(activities);
   } catch (err) {
     res.status(400).json({ message: "Could not create user", errors: err });
