@@ -67,7 +67,8 @@ export const postActivity = (date, exercise, sets, reps, weight) => {
     .then(res => res.json())
     .then((workouts) => {
         console.log(workouts)
-        dispatch(workout.actions.setWorkouts(workouts))
+        dispatch(workout.actions.setWorkouts(workouts.workouts))
+        dispatch(workout.actions.setActivities(workouts.activities))
     })
 }
 }
