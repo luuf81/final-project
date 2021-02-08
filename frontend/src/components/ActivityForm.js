@@ -40,6 +40,7 @@ export const ActivityForm = () => {
   //free solo state test
   //const [value, setValue] = useState(useSelector((store) => store.workout.newExercise.name))
   const [value, setValue] = useState();
+  
 
   const [open, toggleOpen] = useState(false);
 
@@ -168,6 +169,7 @@ export const ActivityForm = () => {
                 });
               } else {
                 console.log(newValue);
+                dispatch(workout.actions.setCurrentExercise(newValue));
                 setValue(newValue);
               }
             }}

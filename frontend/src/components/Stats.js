@@ -73,12 +73,63 @@ export const Stats = () => {
     },
   ];
 
+  let setsData = [
+    {
+      muscle: "Chest",
+      sets: 0,
+    },
+    {
+      muscle: "Shoulders",
+      sets: 0,
+    },
+    {
+      muscle: "Triceps",
+      sets: 0,
+    },
+    {
+      muscle: "Biceps",
+      sets: 0,
+    },
+    {
+      muscle: "Back",
+      sets: 0,
+    },
+    {
+      muscle: "Abs",
+      sets: 0,
+    },
+    {
+      muscle: "Front Legs",
+      sets: 0,
+    },
+    {
+      muscle: "Back Legs",
+      sets: 0,
+    },
+    {
+      muscle: "Glutes",
+      sets: 0,
+    },
+    {
+      muscle: "Calves",
+      sets: 0,
+    },
+  ] 
+
   const dispatch = useDispatch();
   const activities = useSelector((store) => store.workout.activities);
+  const currentExercise = useSelector((store) => store.workout.currentExercise.name);
   const workouts = useSelector((store) => store.workout.workouts);
 
-  const bench = activities
-    .filter((item) => item.type.name === "benchpress")
+  activities.forEach(item => {
+    const found = setsData.find(exercise => exercise.muscle == item.type.primaryMuscle)
+    found.sets += item.sets
+    console.log(found)
+  })
+  
+
+  const exerciseWeight = activities
+    .filter((item) => item.type.name === currentExercise)
     .reverse();
 
   function formatXAxis(activityDate) {
@@ -88,9 +139,46 @@ export const Stats = () => {
   //   bench.forEach(item => item.activityDate = moment(item.activityDate).format("ddd"))
   //   console.log(bench)
 
+  function customTick({ payload, x, y, textAnchor, stroke, radius }) {
+    return (
+      <g
+        className="recharts-layer recharts-polar-angle-axis-tick"
+      >
+        <text
+          radius={radius}
+          fill="white"
+          stroke={stroke}
+          x={x}
+          y={y}
+          className="recharts-text recharts-polar-angle-axis-tick-value"
+          text-anchor={textAnchor}
+        >
+          <tspan x={x} dy="0em">
+            {payload.value}
+          </tspan>
+        </text>
+      </g>
+    );
+  }
+
+  //style={{ fill: 'white' }}
+
   return (
     <>
     <Container>
+    <RadarChart outerRadius={90} width={350} height={350} data={setsData}>
+        <PolarGrid />
+        <PolarAngleAxis dataKey="muscle"  tick={customTick}/>
+        <PolarRadiusAxis angle={30} domain={[0, 40]} />
+        <Radar
+          name="Testuser"
+          dataKey="sets"
+          stroke="#8884d8"
+          fill="#8884d8"
+          fillOpacity={0.6}
+        />
+        <Legend />
+      </RadarChart>
       <RadarChart outerRadius={90} width={350} height={350} data={data}>
         <PolarGrid />
         <PolarAngleAxis dataKey="subject" />
@@ -111,7 +199,7 @@ export const Stats = () => {
         />
         <Legend />
       </RadarChart>
-      <LineChart width={300} height={200} data={bench}>
+      <LineChart width={300} height={200} data={exerciseWeight}>
         <Line type="monotone" dataKey="weight" stroke="#8884d8" />
         <CartesianGrid stroke="#ccc" />
         <XAxis dataKey="activityDate" tickFormatter={formatXAxis} />

@@ -250,7 +250,7 @@ app.get("/workouts", async (req, res) => {
 app.get("/activities", authenticateUser);
 app.get("/activities", async (req, res) => {
   try {
-    const activities = await Activity.find()
+    const activities = await Activity.find({user: req.user})
       .populate("type")
       .populate("user")
       .sort("-activityDate");

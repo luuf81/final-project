@@ -4,7 +4,8 @@ const initialState = {
     workouts: [],
     activities: [],
     exercises: [],
-    newExercise: {}
+    newExercise: {},
+    currentExercise: ""
 }
 
 export const workout = createSlice({
@@ -22,6 +23,9 @@ export const workout = createSlice({
         },
         setNewExercise: (state, action) => {
             state.newExercise = action.payload
+        },
+        setCurrentExercise: (state, action) => {
+            state.currentExercise = action.payload
         },
     }
 })
