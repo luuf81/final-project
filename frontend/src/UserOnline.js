@@ -9,7 +9,7 @@ export const UserOnline = () => {
 
     const [open, setOpen] = useState(false)
 
-    const userOnline = useSelector((store) => store.user.onlineUsers);
+    const userOnline = useSelector((store) => store.user.onlineUsers[store.user.onlineUsers.length - 1]);
     console.log(userOnline)
 
     //if(userOnline !== []) setOpen(true)
