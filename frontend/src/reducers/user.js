@@ -22,7 +22,7 @@ export const user = createSlice({
     },
     setOnlineusers: (state, action) => {
       console.log(action.payload)
-      state.onlineUsers.push = action.payload
+      state.onlineUsers.push(action.payload)
     },
     setAccessToken: (state, action) => {
       const { accessToken } = action.payload;
