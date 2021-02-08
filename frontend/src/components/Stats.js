@@ -120,11 +120,12 @@ export const Stats = () => {
   const activities = useSelector((store) => store.workout.activities);
   const currentExercise = useSelector((store) => store.workout.currentExercise.name);
   const workouts = useSelector((store) => store.workout.workouts);
+  console.log(workouts)
 
   activities.forEach(item => {
     const found = setsData.find(exercise => exercise.muscle == item.type.primaryMuscle)
     found.sets += item.sets
-    console.log(found)
+    
   })
   
 
@@ -179,7 +180,7 @@ export const Stats = () => {
         />
         <Legend />
       </RadarChart>
-      <RadarChart outerRadius={90} width={350} height={350} data={data}>
+      {/* <RadarChart outerRadius={90} width={350} height={350} data={data}>
         <PolarGrid />
         <PolarAngleAxis dataKey="subject" />
         <PolarRadiusAxis angle={30} domain={[0, 150]} />
@@ -198,7 +199,7 @@ export const Stats = () => {
           fillOpacity={0.6}
         />
         <Legend />
-      </RadarChart>
+      </RadarChart> */}
       <LineChart width={300} height={200} data={exerciseWeight}>
         <Line type="monotone" dataKey="weight" stroke="#8884d8" />
         <CartesianGrid stroke="#ccc" />
