@@ -215,7 +215,8 @@ app.post("/followuser", async (req, res) => {
     console.log(followedUser)
     await currentUser.followedUsers.push(followedUser)
     currentUser.save()
-    const allUsers = await User.find({name: req.user.name})
+    const allUsers = await User.find( {name: req.user.name} ).populate({
+      path: "followedUsers"})
     res.status(200).json(allUsers);
   } catch (err) {
     res.status(400).json({ message: "Could follow user", errors: err });
