@@ -66,6 +66,7 @@ export const UserList = () => {
 
   const handleFollowUser = (userName) => {
     //e.preventDefault();
+    console.log('here')
     dispatch(followUser(userName))
   }
 
@@ -103,7 +104,7 @@ export const UserList = () => {
           {user.name}
         </Typography>
         <IconButton aria-label="delete" style={{marginLeft:"100px"}}
-        onClick={() => handleFollowUser(user.name)}
+        onClick={(e) => handleFollowUser(user.name)}
         >
         <PersonAdd />
       </IconButton>

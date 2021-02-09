@@ -18,23 +18,23 @@ export const user = createSlice({
   initialState: initialState,
   reducers: {
     setUsers: (state, action) => {
-      state.users = action.payload
+      state.users = action.payload;
     },
     setOnlineusers: (state, action) => {
-      console.log(action.payload)
-      state.onlineUsers.push(action.payload)
+      console.log(action.payload);
+      state.onlineUsers.push(action.payload);
     },
     setAccessToken: (state, action) => {
       const { accessToken } = action.payload;
       console.log(`Access Token: ${accessToken}`);
       state.login.accessToken = accessToken;
-      localStorage.setItem('accessToken', accessToken)
+      localStorage.setItem("accessToken", accessToken);
     },
     setUserId: (state, action) => {
       const { userId } = action.payload;
       console.log(`User Id: ${userId}`);
       state.login.userId = userId;
-      localStorage.setItem('userId', userId)
+      localStorage.setItem("userId", userId);
     },
     setStatusMessage: (state, action) => {
       const { statusMessage } = action.payload;
@@ -51,30 +51,34 @@ export const user = createSlice({
 
 export const fetchUsers = () => {
   return (dispatch) => {
-      //console.log(localStorage.getItem('accessToken'))
-      fetch("https://happyhabits.herokuapp.com/users", {
-          method: 'GET',
-          headers: { Authorization: localStorage.getItem('accessToken') },
-        })
-      .then(res => res.json())
+    //console.log(localStorage.getItem('accessToken'))
+    fetch("https://happyhabits.herokuapp.com/users", {
+      method: "GET",
+      headers: { Authorization: localStorage.getItem("accessToken") },
+    })
+      .then((res) => res.json())
       .then((users) => {
-          dispatch(user.actions.setUsers(users))
-      })
-}}
+        dispatch(user.actions.setUsers(users));
+      });
+  };
+};
 
 export const followUser = (userName) => {
   return (dispatch) => {
-      //console.log(localStorage.getItem('accessToken'))
-      fetch("https://happyhabits.herokuapp.com/followuser", {
-          method: 'POST',
-          headers: { Authorization: localStorage.getItem('accessToken') },
-          body: JSON.stringify({name: userName})
-        })
-      .then(res => res.json())
-      .then((users) => {
-          dispatch(user.actions.setUsers(users))
-      })
-}}
+    console.log(userName);
+    //console.log(localStorage.getItem('accessToken'))
+    fetch("https://happyhabits.herokuapp.com/followuser", {
+      method: "POST",
+      headers: {'Content-Type': 'application/json', Authorization: localStorage.getItem('accessToken')},
+      body: JSON.stringify({ name: userName }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        //dispatch(user.actions.setUsers(users));
+        console.log("success")
+      });
+  };
+};
 
 // export const socketEvents = () => {
 //   return(dispatch) => {
