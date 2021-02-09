@@ -137,6 +137,10 @@ const userSchema = new mongoose.Schema({
     default: () => crypto.randomBytes(128).toString("hex"),
     unique: true,
   },
+  followedUsers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  }],
 });
 
 userSchema.pre("save", async function (next) {
@@ -197,6 +201,19 @@ app.get("/activitytypes", async (req, res) => {
     res.json(exercises);
   } catch (err) {
     res.status(400).json({ error: "could not fetch exercises" });
+  }
+});
+
+//Follow user
+app.post("/followuser", authenticateUser);
+app.post("/followuser", async (req, res) => {
+  try {
+    const user = await User.find( {user: req.user})
+    const { followedUser } = req.body
+    user.followedUsers.push(followedUser).save()
+    res.status(200).json({ message: "ok" });
+  } catch (err) {
+    res.status(400).json({ message: "Could not create user", errors: err });
   }
 });
 

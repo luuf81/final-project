@@ -59,7 +59,7 @@ export const UserList = () => {
 
   useEffect(() => {
     dispatch(fetchUsers());
-  }, []);
+  }, [onlineUsers]);
 
   return (
     <>
