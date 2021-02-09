@@ -113,19 +113,19 @@ export const MainApp = (props) => {
 
   return (
     <>
-      <Grid container item wrap="nowrap">
-        <Paper
+      <Grid container item wrap="nowrap" justify="center">
+        <Paper elevation={0}
           className={
             (classes.paper, value === "users" ? classes.userPaper : classes.hiddenPaper)
           }
         >
           <UserList />
         </Paper>
-        <Paper className={(classes.paper, value === "activities" ? classes.activitiesPaper : classes.hiddenPaper)}>
+        <Paper elevation={0} className={(classes.paper, value === "activities" ? classes.activitiesPaper : classes.hiddenPaper)}>
           <ActivityForm />
           <ActivityList />
         </Paper>
-        <Paper className={(classes.paper, value === "stats" ? classes.statsPaper : classes.hiddenPaper)}>
+        <Paper elevation={0} className={(classes.paper, value === "stats" ? classes.statsPaper : classes.hiddenPaper)}>
           <Stats />
         </Paper>
       </Grid>

@@ -4,7 +4,7 @@ import { user } from "../reducers/user";
 import { fetchActivities, postActivity, workout } from "../reducers/workout";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWorkouts } from "reducers/workout";
-import { Box, Card, CardContent, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
+import { Box, Card, CardContent, Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Avatar } from "@material-ui/core";
 
 const URL = "https://happyhabits.herokuapp.com/users";
 export const ActivityList = () => {
@@ -17,22 +17,24 @@ export const ActivityList = () => {
 
   return (
     
-    <Box mt={10}>
-      <Paper>
+    <Box mt={10} style={{marginTop:"0"}}>
+      {/* <Paper> */}
         {workouts.map((item) => (
           <Box m={3}>
-            <Card variant="outlined">
-              <CardContent>
-                <Typography>Username: {item.user.name}</Typography>
-                <Typography>Date: {item.sessionDate}</Typography>
-                <TableContainer component={Paper}>
-                <Table>
+            {/* <Card >
+              <CardContent> */}
+              <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+              <Avatar style={{ backgroundColor:"#FF5722"}}>S</Avatar>
+                {/* <Typography>Username: {item.user.name}</Typography> */}
+                <Typography variant="subtitle2">{moment(item.sessionDate).format("YYYY-MM-DD")}</Typography></div>
+                <TableContainer component={Box}>
+                <Table size="small">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Exercise</TableCell>
-                            <TableCell>Sets</TableCell>
-                            <TableCell>Reps</TableCell>
-                            <TableCell>Weight</TableCell>
+                            <TableCell style={{fontWeight:"900"}}>Exercise</TableCell>
+                            <TableCell style={{fontWeight:"900"}} align="right">Sets</TableCell>
+                            <TableCell style={{fontWeight:"900"}} align="right">Reps</TableCell>
+                            <TableCell style={{fontWeight:"900"}} align="right">Weight</TableCell>
                         </TableRow>
                         </TableHead>
                         <TableBody>
@@ -48,11 +50,11 @@ export const ActivityList = () => {
                         </TableBody>
                 </Table>
                 </TableContainer>
-              </CardContent>
-            </Card>
+              {/* </CardContent>
+            </Card> */}
           </Box>
         ))}
-      </Paper>
+      {/* </Paper> */}
     </Box>
   );
 };
