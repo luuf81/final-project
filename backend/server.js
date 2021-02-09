@@ -139,7 +139,7 @@ const userSchema = new mongoose.Schema({
   },
   followedUsers: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "userSchema",
   }],
 });
 
@@ -208,9 +208,13 @@ app.get("/activitytypes", async (req, res) => {
 app.post("/followuser", authenticateUser);
 app.post("/followuser", async (req, res) => {
   try {
-    const user = await User.find( {user: req.user})
-    const { followedUser } = req.body
-    user.followedUsers.push(followedUser).save()
+    //console.log(req.user)
+    const currentUser = await User.findOne({name: req.user.name})
+    console.log(currentUser)
+    const followedUser = await User.findOne({name: req.body.name})
+    console.log(followedUser)
+    await currentUser.followedUsers.push(followedUser)
+    currentUser.save()
     res.status(200).json({ message: "ok" });
   } catch (err) {
     res.status(400).json({ message: "Could not create user", errors: err });

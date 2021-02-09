@@ -62,6 +62,20 @@ export const fetchUsers = () => {
       })
 }}
 
+export const followUser = (userName) => {
+  return (dispatch) => {
+      //console.log(localStorage.getItem('accessToken'))
+      fetch("https://happyhabits.herokuapp.com/followuser", {
+          method: 'POST',
+          headers: { Authorization: localStorage.getItem('accessToken') },
+          body: JSON.stringify({name: userName})
+        })
+      .then(res => res.json())
+      .then((users) => {
+          dispatch(user.actions.setUsers(users))
+      })
+}}
+
 // export const socketEvents = () => {
 //   return(dispatch) => {
 //   if(!socket) {

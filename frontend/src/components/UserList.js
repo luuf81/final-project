@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchUsers, user } from "../reducers/user";
 import { fetchActivities, postActivity, workout } from "../reducers/workout";
+import { followUser } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWorkouts } from "reducers/workout";
 import {
@@ -9,6 +10,7 @@ import {
   Box,
   Card,
   CardContent,
+  IconButton,
   Typography,
   Paper,
   TableContainer,
@@ -18,6 +20,7 @@ import {
   TableCell,
   TableBody,
 } from "@material-ui/core";
+import { PersonAdd } from '@material-ui/icons';
 import io from "socket.io-client";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 
@@ -61,6 +64,11 @@ export const UserList = () => {
     dispatch(fetchUsers());
   }, [onlineUsers]);
 
+  const handleFollowUser = (userName) => {
+    //e.preventDefault();
+    dispatch(followUser(userName))
+  }
+
   return (
     <>
       <Typography align="center" variant="h4">
@@ -85,7 +93,7 @@ export const UserList = () => {
                 {user.name}
               </Typography>
         </div> :
-        <div style={{ display: "flex", alignItems: "center", margin: "5px" }}>
+        <div style={{ display: "flex", alignItems: "center", margin: "5px", justifyContent:"space-between" }}>
         
           <Avatar style={{ backgroundColor: "#FF5722" }}>
             {user.name.charAt(0)}
@@ -94,6 +102,11 @@ export const UserList = () => {
         <Typography style={{ marginLeft: "15px" }}>
           {user.name}
         </Typography>
+        <IconButton aria-label="delete" style={{marginLeft:"100px"}}
+        onClick={() => handleFollowUser(user.name)}
+        >
+        <PersonAdd />
+      </IconButton>
   </div>  
         
         
