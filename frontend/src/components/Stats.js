@@ -130,7 +130,8 @@ export const Stats = () => {
   return (
     <>
     <Container>
-    <RadarChart outerRadius={90} width={350} height={350} data={setsData}>
+    <Typography style={{marginTop:"30px"}}>Your muscle (im)balance compared to your followers</Typography>
+    <RadarChart outerRadius={90} width={350} height={300} data={setsData}>
         <PolarGrid />
         <PolarAngleAxis dataKey="muscle"  tick={customTick}/>
         <PolarRadiusAxis angle={30} domain={[0, 40]} />
@@ -163,14 +164,15 @@ export const Stats = () => {
         />
         <Legend />
       </RadarChart> */}
-      {currentExercise &&
-      <LineChart width={300} height={200} data={exerciseWeight}>
+      {currentExercise && <>
+      <Typography style={{margin:"30px"}}>Your recent {currentExercise} workout history </Typography>
+      <LineChart width={300} height={250} data={exerciseWeight}>
         <Line type="monotone" dataKey="weight" stroke="#8884d8" />
         <CartesianGrid stroke="#ccc" />
         <XAxis dataKey="activityDate" tickFormatter={formatXAxis} />
         <YAxis />
         <Tooltip label="activityDate" />
-      </LineChart>}
+      </LineChart></>}
       </Container>
     </>
   );

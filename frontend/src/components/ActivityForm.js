@@ -116,7 +116,7 @@ export const ActivityForm = () => {
   };
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardContent>
         <Grid
           container
@@ -129,7 +129,7 @@ export const ActivityForm = () => {
             <KeyboardDatePicker
               disableToolbar
               variant="inline"
-              fullWidth
+              //fullWidth
               // format="MM/DD/yyyy"
               format="YYYY-MM-DD"
               margin="normal"
@@ -202,7 +202,7 @@ export const ActivityForm = () => {
             clearOnBlur
             handleHomeEndKeys
             renderOption={(option) => option.name}
-            fullWidth
+            //fullWidth
             freeSolo
             renderInput={(params) => (
               <TextField

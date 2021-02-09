@@ -24,7 +24,7 @@ export const ActivityList = () => {
             {/* <Card >
               <CardContent> */}
               <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
-              <Avatar style={{ backgroundColor:"#FF5722"}}>S</Avatar>
+              <Avatar style={{ backgroundColor:"#FF5722"}}>{item.user.name.charAt(0)}</Avatar>
                 {/* <Typography>Username: {item.user.name}</Typography> */}
                 <Typography variant="subtitle2">{moment(item.sessionDate).format("YYYY-MM-DD")}</Typography></div>
                 <TableContainer component={Box}>
