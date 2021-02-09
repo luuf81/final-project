@@ -75,7 +75,7 @@ export const followUser = (userName) => {
       .then((res) => res.json())
       .then((json) => {
         //dispatch(user.actions.setUsers(users));
-        console.log("success")
+        console.log(json)
       });
   };
 };

@@ -215,7 +215,7 @@ app.post("/followuser", async (req, res) => {
     console.log(followedUser)
     await currentUser.followedUsers.push(followedUser)
     currentUser.save()
-    const allUsers = await User.find().populate("followedUsers")
+    const allUsers = await User.find()
     res.status(200).json(allUsers);
   } catch (err) {
     res.status(400).json({ message: "Could not create user", errors: err });
