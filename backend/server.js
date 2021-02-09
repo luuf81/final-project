@@ -21,7 +21,7 @@ const http = require('http').createServer(app);
 const io = require("socket.io")(http, {
   cors: {
     //origin: "https://happyhabits.herokuapp.com/",
-    origin: "https://happyhabits.netlify.app",
+    origin: ["https://happyhabits.netlify.app", "http://localhost:3000"],
     //origin: "http://localhost:3000",
     methods: ["GET", "POST"]
   }
