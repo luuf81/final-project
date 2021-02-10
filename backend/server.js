@@ -244,7 +244,8 @@ app.post("/activitytypes", async (req, res) => {
 app.get("/workouts", authenticateUser);
 app.get("/workouts", async (req, res) => {
   try {
-    const workouts = await ExerciseSession.find( {user: req.user})
+    const workouts = await ExerciseSession.find()
+    //{user: req.user} put thihs back in for filtering per user
       .populate({
         path: "activities",
         populate: {
