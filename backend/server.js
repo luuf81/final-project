@@ -216,7 +216,7 @@ app.post("/followuser", async (req, res) => {
     await currentUser.followedUsers.push(followedUser)
     currentUser.save()
     const allUsers = await User.find().populate("followedUsers")
-    res.status(200).json(allUsers);
+    res.status(200).json(currentUser);
   } catch (err) {
     res.status(400).json({ message: "Could follow user", errors: err });
   }
