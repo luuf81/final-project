@@ -73,9 +73,9 @@ export const followUser = (userName) => {
       body: JSON.stringify({ name: userName }),
     })
       .then((res) => res.json())
-      .then((json) => {
-        //dispatch(user.actions.setUsers(users));
-        console.log(json)
+      .then((users) => {
+        dispatch(user.actions.setUsers(users));
+        
       });
   };
 };

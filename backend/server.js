@@ -21,7 +21,7 @@ const http = require('http').createServer(app);
 const io = require("socket.io")(http, {
   cors: {
     //origin: "https://happyhabits.herokuapp.com/",
-    origin: ["https://happyhabits.netlify.app", "http://localhost:3000"],
+    origin: ["https://happyhabits.netlify.app", "https://happyhabits-pwa.netlify.app", "http://localhost:3000"],
     //origin: "http://localhost:3000",
     methods: ["GET", "POST"]
   }
@@ -345,7 +345,12 @@ app.post("/activities", async (req, res) => {
 app.get("/users", authenticateUser);
 app.get("/users", async (req, res) => {
   try {
-    const users = await User.find()
+    console.log(req.query.user)
+    const userIdreq = req.query.user
+    console.log( {userIdreq})
+    let users
+    if(userIdreq) users = await User.find({_id: userIdreq})
+    else users = await User.find()
     res.json(users);
   } catch (err) {
     res.status(400).json({ error: "could not fetch users" });
