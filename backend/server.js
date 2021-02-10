@@ -381,7 +381,7 @@ app.post("/sessions", async (req, res) => {
     const { name, password } = req.body;
     const user = await User.findOne({ name });
     if (user && bcrypt.compareSync(password, user.password)) {
-      res.status(200).json({ userId: user._id, accessToken: user.accessToken });
+      res.status(200).json({ userId: user._id, accessToken: user.accessToken, followedUsers: user.followedUsers });
     } else {
       throw "User not found";
     }
