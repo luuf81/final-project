@@ -139,7 +139,7 @@ const userSchema = new mongoose.Schema({
   },
   followedUsers: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "userSchema",
+    ref: "User",
   }],
 });
 
@@ -215,7 +215,7 @@ app.post("/followuser", async (req, res) => {
     console.log(followedUser)
     await currentUser.followedUsers.push(followedUser)
     currentUser.save()
-    const allUsers = await User.find( {name: req.user.name} ).populate("followedUsers")
+    const allUsers = await User.find()//.populate("followedUsers")
     res.status(200).json(allUsers);
   } catch (err) {
     res.status(400).json({ message: "Could follow user", errors: err });
