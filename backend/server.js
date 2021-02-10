@@ -244,7 +244,7 @@ app.post("/activitytypes", async (req, res) => {
 app.get("/workouts", authenticateUser);
 app.get("/workouts", async (req, res) => {
   try {
-    const workouts = await ExerciseSession.find( {user: req.user})
+    const workouts = await ExerciseSession.find() //{user: req.user}
       .populate({
         path: "activities",
         populate: {
@@ -272,7 +272,7 @@ app.get("/workouts", async (req, res) => {
 app.get("/activities", authenticateUser);
 app.get("/activities", async (req, res) => {
   try {
-    const activities = await Activity.find({user: req.user})
+    const activities = await Activity.find() //{user: req.user}
       .populate("type")
       .populate("user")
       .sort("-activityDate");
