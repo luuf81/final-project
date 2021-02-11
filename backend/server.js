@@ -342,8 +342,7 @@ app.post("/activities", async (req, res) => {
       .populate("user")
       .sort("-sessionDate");
     console.log(workouts);
-    //res.json(workouts);
-    //res.json(activities);
+    io.emit('activity', activity);
     res.status(200).json({ workouts, activities });
     //res.status(200).json(activities);
   } catch (err) {
