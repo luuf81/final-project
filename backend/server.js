@@ -316,11 +316,11 @@ app.post("/activities", async (req, res) => {
         activities: activity,
         user: user,
       });
-    const activities = await Activity.find( {user: req.user})
+    const activities = await Activity.find() //{user: req.user}
       .populate("type")
       .populate("user")
       .sort("-activityDate");
-    const workouts = await ExerciseSession.find( {user: req.user})
+    const workouts = await ExerciseSession.find() //{user: req.user}
       .populate({
         path: "activities",
         populate: {
