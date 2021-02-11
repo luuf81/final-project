@@ -222,6 +222,17 @@ app.post("/followuser", async (req, res) => {
   }
 });
 
+app.get("/followuser", authenticateUser);
+app.get("/followuser", async (req, res) => {
+  try {
+    console.log(req.user)
+    const currentUser = await User.findOne({name: req.user.name})
+    res.status(200).json(currentUser);
+  } catch (err) {
+    res.status(400).json({ message: "Could follow user", errors: err });
+  }
+});
+
 //Post new activity types
 app.post("/activitytypes", authenticateUser);
 app.post("/activitytypes", async (req, res) => {
@@ -345,15 +356,9 @@ app.post("/activities", async (req, res) => {
 app.get("/users", authenticateUser);
 app.get("/users", async (req, res) => {
   try {
-    console.log(req.query.user)
-    const userIdreq = req.query.user
-    console.log( {userIdreq})
+    console.log(req.query.id)
     let users
-    if(userIdreq) users = await User.find({_id: userIdreq})
-    // .populate({
-    //   path: 'followedUsers',
-    //   options: { limit: 5 }
-    // });
+    if(req.query.id) users = await User.find({_id: req.query.id})
     else users = await User.find()
     res.json(users);
   } catch (err) {
@@ -369,7 +374,7 @@ app.post("/users", async (req, res) => {
       name,
       password,
     }).save();
-    res.status(200).json({ userId: user._id, accessToken: user.accessToken });
+    res.status(200).json({ userId: user._id, accessToken: user.accessToken , followedUsers: user.followedUsers });
   } catch (err) {
     res.status(400).json({ message: "Could not create user", errors: err });
   }
