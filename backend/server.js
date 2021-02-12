@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 import moment from "moment";
 import { type } from "os";
 import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
+const require = createRequire(import.meta.url); //needed to import with "require in backend"
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/happyhabits";
 console.log(mongoUrl)
@@ -17,15 +17,18 @@ mongoose.Promise = Promise;
 const port = process.env.PORT || 8080;
 const app = express();
 const http = require('http').createServer(app);
-// const io = require('socket.io')(http);
+
+//Socket.io Server-side
+
 const io = require("socket.io")(http, {
   cors: {
-    //origin: "https://happyhabits.herokuapp.com/",
     origin: ["https://happyhabits.netlify.app", "https://happyhabits-pwa.netlify.app", "http://localhost:3000"],
-    //origin: "http://localhost:3000",
     methods: ["GET", "POST"]
   }
 });
+
+//socket event fired on new connection
+
 io.on('connection', (socket) => {
    console.log('a user connected');
    socket.on('user', async (accessToken) => {
@@ -34,15 +37,8 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('user', user);
    })
  });
-//io.set('origins', '*:*');
 
-// http.listen(3001, () => {
-//   console.log('listening on *:3001');
-// });
-
-
-
-//activity session model
+// -- SCHEMAS --
 
 const ExerciseSessionSchema = mongoose.Schema(
   {
@@ -178,9 +174,6 @@ const authenticateUser = async (req, res, next) => {
 
 const User = mongoose.model("User", userSchema);
 
-//   PORT=9000 npm start
-
-
 // Add middlewares to enable cors and json body parsing
 app.use(cors());
 app.use(bodyParser.json());
@@ -205,27 +198,27 @@ app.get("/activitytypes", async (req, res) => {
 });
 
 //Follow user
+
 app.post("/followuser", authenticateUser);
 app.post("/followuser", async (req, res) => {
   try {
     //console.log(req.user)
     const currentUser = await User.findOne({name: req.user.name})
-    console.log(currentUser)
     const followedUser = await User.findOne({name: req.body.name})
-    console.log(followedUser)
     await currentUser.followedUsers.push(followedUser)
     currentUser.save()
     const allUsers = await User.find().populate("followedUsers")
     res.status(200).json(currentUser);
   } catch (err) {
-    res.status(400).json({ message: "Could follow user", errors: err });
+    res.status(400).json({ message: "Could not follow user", errors: err });
   }
 });
+
+//CONVERT TO PUT
 
 app.get("/followuser", authenticateUser);
 app.get("/followuser", async (req, res) => {
   try {
-    console.log(req.user)
     const currentUser = await User.findOne({name: req.user.name})
     res.status(200).json(currentUser);
   } catch (err) {
@@ -255,7 +248,7 @@ app.post("/activitytypes", async (req, res) => {
 app.get("/workouts", authenticateUser);
 app.get("/workouts", async (req, res) => {
   try {
-    const workouts = await ExerciseSession.find() //{user: req.user}
+    const workouts = await ExerciseSession.find() 
       .populate({
         path: "activities",
         populate: {
@@ -271,7 +264,6 @@ app.get("/workouts", async (req, res) => {
         },
       })
       .sort("-sessionDate");
-    //console.log(workouts);
     res.json(workouts);
   } catch (err) {
     res.status(400).json({ error: "could not fetch workouts" });
@@ -283,11 +275,10 @@ app.get("/workouts", async (req, res) => {
 app.get("/activities", authenticateUser);
 app.get("/activities", async (req, res) => {
   try {
-    const activities = await Activity.find() //{user: req.user}
+    const activities = await Activity.find() 
       .populate("type")
       .populate("user")
       .sort("-activityDate");
-    //activities.map(item => console.log(item.activityDate))
     res.json(activities);
   } catch (err) {
     res.status(400).json({ error: "could not fetch activities" });
@@ -310,13 +301,10 @@ app.post("/activities", async (req, res) => {
       weight,
       user,
     });
-    //const activityDate = moment(activity.createdAt).startOf("day");
-    console.log(activityDate);
     const session = await ExerciseSession.findOne({
       sessionDate: { $eq: activityDate },
       user,
     });
-    console.log(session);
     if (session) {
       await session.activities.push(activity);
       session.user = user;
@@ -327,11 +315,11 @@ app.post("/activities", async (req, res) => {
         activities: activity,
         user: user,
       });
-    const activities = await Activity.find() //{user: req.user}
+    const activities = await Activity.find() 
       .populate("type")
       .populate("user")
       .sort("-activityDate");
-    const workouts = await ExerciseSession.find() //{user: req.user}
+    const workouts = await ExerciseSession.find() 
       .populate({
         path: "activities",
         populate: {
@@ -341,12 +329,10 @@ app.post("/activities", async (req, res) => {
       })
       .populate("user")
       .sort("-sessionDate");
-    console.log(workouts);
-    io.emit('activity', activity);
+    io.emit('activity', activity); //emit activities to all clients 
     res.status(200).json({ workouts, activities });
-    //res.status(200).json(activities);
   } catch (err) {
-    res.status(400).json({ message: "Could not create user", errors: err });
+    res.status(400).json({ message: "Could not create activity", errors: err });
   }
 });
 
@@ -355,7 +341,6 @@ app.post("/activities", async (req, res) => {
 app.get("/users", authenticateUser);
 app.get("/users", async (req, res) => {
   try {
-    console.log(req.query.id)
     let users
     if(req.query.id) users = await User.find({_id: req.query.id})
     else users = await User.find()
