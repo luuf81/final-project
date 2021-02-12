@@ -216,6 +216,22 @@ app.post("/followuser", async (req, res) => {
 
 //CONVERT TO PUT
 
+app.put("/followuser", authenticateUser);
+app.put("/followuser", async (req, res) => {
+  try {
+    //console.log(req.user)
+    const currentUser = await User.findOne({name: req.user.name})
+    const followedUser = await User.findOne({name: req.body.name})
+    const userIndex = currentUser.followedUsers.findIndex(item => item === followedUser._id)
+    await currentUser.followedUsers.splice(userIndex, 1)
+    currentUser.save()
+    //const allUsers = await User.find().populate("followedUsers")
+    res.status(200).json(currentUser);
+  } catch (err) {
+    res.status(400).json({ message: "Could not follow user", errors: err });
+  }
+});
+
 app.get("/followuser", authenticateUser);
 app.get("/followuser", async (req, res) => {
   try {
